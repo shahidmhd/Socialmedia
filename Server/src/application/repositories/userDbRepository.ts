@@ -15,11 +15,14 @@ export const userDbRepository = (
   const getUserByEmail = async (email: string) =>
     await repository.getUserByEmail(email);
     const getUserById = async (id: string) => await repository.getUserById(id);
+    const getUserByUserName = async (userName: string) =>
+    await repository.getUserByUserName(userName);
   
   return {
     addUser,
     getUserByEmail,
     getUserById,
+    getUserByUserName,
   };
 };
 export type UserDbInterface = typeof userDbRepository;

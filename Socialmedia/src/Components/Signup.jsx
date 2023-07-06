@@ -11,10 +11,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
-
+import { Register } from '../api/AuthRequest/AuthRequest';
 const defaultTheme = createTheme();
 
+
+import {useNavigate} from 'react-router-dom'
+
 const Signup = () => {
+    const navigate=useNavigate()
     const {
         register,
         handleSubmit,
@@ -22,21 +26,27 @@ const Signup = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = ({ username, email,phoneNumber, password }) => {
-        const formdata = { username, email,phoneNumber, password }
+    const onSubmit = async ({ name, userName, email, number, password }) => {
+        const formdata = { name, userName, email, number, password }
         console.log(formdata);
+
+        const response = await Register(formdata)
+         if(response.status==="success"){
+           navigate('/')
+         }
+      
 
     };
 
     const validatePhoneNumber = (value) => {
         if (value.length !== 10) {
-          return 'Phone Number should be a 10-digit number';
+            return 'Phone Number should be a 10-digit number';
         }
         if (!/^\d+$/.test(value)) {
-          return 'Phone Number should only contain numbers';
+            return 'Phone Number should only contain numbers';
         }
         return undefined;
-      };
+    };
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -61,15 +71,29 @@ const Signup = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="username"
-                            label="Username"
-                            name="username" // Use a valid name for the input field
+                            id="name"
+                            label="Full Name"
+                            name="name" // Use a valid name for the input field
                             autoFocus
-                            {...register('username', {
-                                required: 'Username is required',
+                            {...register('name', {
+                                required: 'fullname is required',
                             })} // Register the field with react-hook-form
-                            error={!!errors.username} // Set error state based on validation
-                            helperText={errors.username?.message} // Display validation error message
+                            error={!!errors.name} // Set error state based on validation
+                            helperText={errors.name?.message} // Display validation error message
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="userName"
+                            label="Username"
+                            name="userName" // Use a valid name for the input field
+                            autoFocus
+                            {...register('userName', {
+                                required: 'userName is required',
+                            })} // Register the field with react-hook-form
+                            error={!!errors.userName} // Set error state based on validation
+                            helperText={errors.userName?.message} // Display validation error message
                         />
                         <TextField
                             margin="normal"
@@ -94,13 +118,13 @@ const Signup = () => {
                             margin="normal"
                             required
                             fullWidth
-                            name="phoneNumber"
+                            name="number"
                             label="Phone Number"
                             type="text"
-                            id="phone-number"
-                            {...register('phoneNumber', { validate: validatePhoneNumber })}
-                            error={!!errors.phoneNumber}
-                            helperText={errors.phoneNumber?.message}
+                            id="number"
+                            {...register('number', { validate: validatePhoneNumber })}
+                            error={!!errors.number}
+                            helperText={errors.number?.message}
                         />
                         <TextField
                             margin="normal"

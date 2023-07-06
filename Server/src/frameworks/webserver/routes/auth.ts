@@ -16,9 +16,9 @@ const authRouter=()=>{
         userRepositoryMongoDB,
         );
    
-console.log("hiiiiiiiiiiiiiiiiiiiiii");
 
     router.post('/register',controller.registerUser)
+    router.post('/login',controller.loginUser)
 
     
   

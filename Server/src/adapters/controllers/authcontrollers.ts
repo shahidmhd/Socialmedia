@@ -5,6 +5,7 @@ import { AuthServiceInterface } from "../../application/services/authServiceinte
 import { AuthService } from "../../frameworks/services/authService"
 import asyncHandler from 'express-async-handler'
 import {
+    userLogin,
     userRegister,
   } from "../../application/useCases/auth/userAuth";
 
@@ -19,6 +20,10 @@ const authController = (
     const dbRepositoryUser = userDbRepository(userDbRepositoryImpl());
     const authService = authServiceInterface(authServiceImpl());
   
+
+
+
+
     const registerUser = asyncHandler(async (req: Request, res: Response) => {
       const { name, userName, email, number, password } = req.body;
       console.log(name,"bhvdxvdxjvdxkjv");
@@ -38,10 +43,31 @@ const authController = (
       });
     });
   
-    
+
+    const loginUser = asyncHandler(async (req: Request, res: Response) => {
+        const { userName, password }: { userName: string; password: string } =
+          req.body;
+        const token = await userLogin(
+          userName,
+          password,
+          dbRepositoryUser,
+          authService
+        );
+        res.json({
+          status: "success",
+          message: "user verified",
+          token,
+        });
+      });
+
+
+
+
+
   
     return {
-      registerUser
+      registerUser,
+      loginUser
   };
 };
   
