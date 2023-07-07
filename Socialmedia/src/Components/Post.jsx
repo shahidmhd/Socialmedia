@@ -10,6 +10,7 @@ const Post = () => {
   return (
     <Card sx={{margin:5,boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)' }}>
         <CardHeader
+        sx={{bgcolor:"#e6eaf0"}}
           avatar={
             <Avatar style={{ backgroundColor: 'red' }} aria-label="recipe">
               R

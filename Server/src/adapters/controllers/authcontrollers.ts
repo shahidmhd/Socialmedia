@@ -36,6 +36,8 @@ const authController = (
         password,
       };
       const token = await userRegister(user, dbRepositoryUser, authService);
+      console.log(token,"token");
+      
       res.json({
         status: "success",
         message: "new user registered",
@@ -45,8 +47,9 @@ const authController = (
   
 
     const loginUser = asyncHandler(async (req: Request, res: Response) => {
-        const { userName, password }: { userName: string; password: string } =
-          req.body;
+        const { userName, password }: { userName: string; password: string } =req.body;
+        console.log(userName,password,"hhhhhhhhhhhhhh");
+        
         const token = await userLogin(
           userName,
           password,

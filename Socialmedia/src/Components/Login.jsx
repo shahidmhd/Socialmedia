@@ -3,7 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,19 +12,33 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useForm } from 'react-hook-form';
-
+import { LoginUser } from '../api/AuthRequest/AuthRequest';
+import { useNavigate } from 'react-router-dom';
+import { setLogin } from '../redux/Authslice';
 const defaultTheme = createTheme();
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = ({email,password }) => {
-        const formdata = {email,password}
+    const onSubmit = async({userName,password }) => {
+        const formdata = {userName,password}
         console.log(formdata);
+
+        const response =await LoginUser(formdata)
+        console.log(response,"rrrr");
+        if(response.status==="success"){
+            dispatch(setLogin(response));
+         navigate('/')
+        }
 
     };
 
@@ -58,24 +72,19 @@ const Login = () => {
 
 
                     <form noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
-                        <TextField
+                    <TextField
                             margin="normal"
                             required
                             fullWidth
-                            name="email"
-                            label="Email"
-                            type="email"
-                            id="email"
-                            autoComplete="email"
-                            {...register('email', {
-                                required: 'Email is required',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Invalid email address',
-                                },
-                            })}
-                            error={!!errors.email}
-                            helperText={errors.email?.message}
+                            id="userName"
+                            label="UserName"
+                            name="userName" // Use a valid name for the input field
+                            autoFocus
+                            {...register('userName', {
+                                required: 'userName is required',
+                            })} // Register the field with react-hook-form
+                            error={!!errors.userName} // Set error state based on validation
+                            helperText={errors.userName?.message} // Display validation error message
                         />
                         <TextField
                             margin="normal"
@@ -106,13 +115,14 @@ const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link to="/Signup" variant="body2">
                                     {'create account? Sign Up'}
                                 </Link>
                             </Grid>
                         </Grid>
                     </form>
                 </Box>
+                < ToastContainer/>
             </Container>
         </ThemeProvider>
     );

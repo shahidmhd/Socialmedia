@@ -17,7 +17,7 @@ const MuiDrawer = ({isDrawerOpen, setDrawerOpen}) => {
             <Box pt={3} pl={3} sx={{cursor: 'pointer'}}>
                 <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
                     <Box p={2} width={'250px'} textAlign={'center'} role='presentation'>
-                    <Typography variant='h6'  >Instagram</Typography>
+                    <Typography variant='h6'  >TrendNet</Typography>
                         <List>
           <ListItem disablePadding>
             <ListItemButton component="a" href='#sample'>

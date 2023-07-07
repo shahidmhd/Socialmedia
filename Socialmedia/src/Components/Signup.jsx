@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,12 +12,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { Register } from '../api/AuthRequest/AuthRequest';
 const defaultTheme = createTheme();
-
-
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from "react-redux";
+import { setLogin } from "../redux/Authslice";
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
-    const navigate=useNavigate()
+  const dispatch=useDispatch()
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
@@ -26,15 +29,21 @@ const Signup = () => {
         formState: { errors },
     } = useForm();
 
+
+
+
     const onSubmit = async ({ name, userName, email, number, password }) => {
         const formdata = { name, userName, email, number, password }
-        console.log(formdata);
-
         const response = await Register(formdata)
-         if(response.status==="success"){
-           navigate('/')
-         }
-      
+        if (response.status === "success") {
+            dispatch(setLogin(response));
+          toast.success(response.message);
+
+            setTimeout(()=>{
+                navigate('/');
+               }, 2000);
+        }
+
 
     };
 
@@ -47,6 +56,13 @@ const Signup = () => {
         }
         return undefined;
     };
+
+
+
+
+
+
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -168,13 +184,14 @@ const Signup = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
-                                    {'Don\'t have an account? Sign Up'}
+                                <Link to="/login" variant="body2" >
+                                    {'Don\'t have an account?Login'}
                                 </Link>
                             </Grid>
                         </Grid>
                     </form>
                 </Box>
+                < ToastContainer/>
             </Container>
         </ThemeProvider>
     );

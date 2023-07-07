@@ -1,13 +1,13 @@
 import { AppBar, Badge, Box, InputBase, Toolbar, Typography, Avatar, Menu, MenuItem, Drawer } from '@mui/material'
-import InstagramIcon from '@mui/icons-material/Instagram';
+// import InstagramIcon from '@mui/icons-material/Instagram';
 import React, { useState } from 'react'
 import styled from '@emotion/styled';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 import MuiDrawer from './Drawer';
-
-
+import { useDispatch } from 'react-redux';
+import {setLogout } from "../redux/Authslice";
 
 
 
@@ -30,13 +30,14 @@ const Icons = styled(Box)(({ theme }) => ({
     gap: '20px',
 }))
 const Navbar = () => {
+    const dispatch=useDispatch()
     const [open,setOpen]=useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false);
     return (
         <AppBar position='sticky'>
             <StyledToolbar>
-                <Typography variant='h6' sx={{ display: { xs: 'none', sm: 'block' } }} >Instagram</Typography>
-                <InstagramIcon onClick={() => setDrawerOpen(true)}sx={{ display: { xs: 'block', sm: 'none' } }} /> 
+                <Typography variant='h6' sx={{ display: { xs: 'none', sm: 'block' } }} >TrendNet</Typography>
+                <ViewSidebarIcon onClick={() => setDrawerOpen(true)}sx={{ display: { xs: 'block', sm: 'none' } }} /> 
                 <MuiDrawer isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen} />
                 {/* <InstagramIcon sx={{ display: { xs: 'block', sm: 'none' } }} /> */}
                 <Search style={{ borderRadius: '5px' }}><InputBase placeholder='search......' /></Search>
@@ -73,7 +74,7 @@ const Navbar = () => {
                 >
                     <MenuItem >Profile</MenuItem>
                     <MenuItem >My account</MenuItem>
-                    <MenuItem >Logout</MenuItem>
+                    <MenuItem onClick={() => dispatch(setLogout())} >Logout</MenuItem>
                 </Menu>
             </StyledToolbar>
         </AppBar>

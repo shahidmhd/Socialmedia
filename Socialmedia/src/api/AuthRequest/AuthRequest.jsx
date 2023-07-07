@@ -10,4 +10,16 @@ export const Register = async (formData) => {
       
     }
   };
+
+  export const LoginUser = async (formData) => {
+    try {
+      const response = await ApI.post("/api/auth/login", formData);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      // Handle error
+      console.error("Error creating post:", error);
+      
+    }
+  };
   
