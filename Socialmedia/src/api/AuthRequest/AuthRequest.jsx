@@ -23,4 +23,18 @@ export const Register = async (formData) => {
       
     }
   };
+
+
+
+  export const googleLogin = async (formData) => {
+    console.log(formData,"iiiiiiiiiiiiiii");
+    try {
+      const response = await ApI.post("/api/auth/googleLogin", formData);
+      return response.data;
+    } catch (error) {
+     
+  
+      console.error(error.response.data.message);
+    }
+  };
   

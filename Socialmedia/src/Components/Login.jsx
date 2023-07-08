@@ -12,7 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useForm } from 'react-hook-form';
-import { LoginUser } from '../api/AuthRequest/AuthRequest';
+import { googleLogin, LoginUser } from '../api/AuthRequest/AuthRequest';
 import { useNavigate } from 'react-router-dom';
 import { setLogin } from '../redux/Authslice';
 const defaultTheme = createTheme();
@@ -46,8 +46,19 @@ const Login = () => {
 
 
 
-    const submit = (decoded) => {
-        console.log(decoded,"ffffffffff");
+    const submit = async(decoded) => {
+        const name=decoded.given_name
+        const userName=decoded.name
+        const email=decoded.email
+        const formdata={name,userName,email}
+console.log(formdata);
+        const response=await googleLogin(formdata)
+        console.log(response,"res");
+        if (response.status === "success") {
+            dispatch(setLogin(response));
+            navigate('/')
+        }
+     
     }
 
 

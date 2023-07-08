@@ -6,6 +6,7 @@ import { AuthService } from "../../frameworks/services/authService"
 import asyncHandler from 'express-async-handler'
 import {
   adminlogin,
+    googleLogin,
     userLogin,
     userRegister,
   } from "../../application/useCases/auth/userAuth";
@@ -55,8 +56,6 @@ const authController = (
 
     const loginUser = asyncHandler(async (req: Request, res: Response) => {
         const { userName, password }: { userName: string; password: string } =req.body;
-        console.log(userName,password,"hhhhhhhhhhhhhh");
-        
         const token = await userLogin(
           userName,
           password,
@@ -89,12 +88,34 @@ const authController = (
       });
 
 
+      const googleLoginUser = asyncHandler(async (req: Request, res: Response) => {
+    
+        const name:string=req.body?.name;
+        const userName: string = req.body?.userName;
+        const email: string = req.body?.email;
+console.log(name,userName,"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+
+        const token = await googleLogin(
+          name,
+          userName,
+          email,
+          dbRepositoryUser,
+          authService
+        );
+        res.json({
+          status: "success",
+          message: "new user registered",
+          token: token,
+        });
+      });
+
 
   
     return {
       registerUser,
       loginUser,
-      adminLogin
+      adminLogin,
+      googleLoginUser
   };
 };
   

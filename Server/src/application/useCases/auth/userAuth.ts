@@ -100,3 +100,29 @@ export const userLogin = async (
     const token = authService.generateToken(admin._id.toString());
     return { token, admin };
   };
+
+
+
+  export const googleLogin = async (
+    name: string,
+    userName: string,
+    email: string,
+    userRepository: ReturnType<UserDbInterface>,
+    authService: ReturnType<AuthServiceInterface>
+  ) => {
+    const user = {
+      userName,
+      name,
+      email,
+    };
+    const isUserExist = await userRepository.getUserByEmail(email);
+    if (isUserExist) {
+      const token = authService.generateToken(isUserExist._id.toString());
+      return { token, user: isUserExist };
+    } else {
+      const userDetails = await userRepository.addUser(user);
+      const token = authService.generateToken(userDetails._id.toString());
+      return { token, user: userDetails };
+    }
+  };
+  
