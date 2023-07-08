@@ -37,12 +37,15 @@ const Signup = () => {
         console.log(formdata,"fffff");
         const response = await Register(formdata)
         if (response.status === "success") {
-            dispatch(setLogin(response));
-          toast.success(response.message);
-
+            toast.success(response.message);
+            setTimeout(()=>{
+                dispatch(setLogin(response));
+            },2000)
             setTimeout(()=>{
                 navigate('/');
                }, 2000);
+        }else{
+            toast.error("some thing wrong")
         }
 
 

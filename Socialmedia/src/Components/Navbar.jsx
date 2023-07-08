@@ -1,4 +1,4 @@
-import { AppBar, Badge, Box, InputBase, Toolbar, Typography, Avatar, Menu, MenuItem, Drawer } from '@mui/material'
+import { AppBar, Badge, Box, InputBase, Toolbar, Typography, Avatar, Menu, MenuItem, Drawer, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Slide, Button } from '@mui/material'
 // import InstagramIcon from '@mui/icons-material/Instagram';
 import React, { useState } from 'react'
 import styled from '@emotion/styled';
@@ -7,7 +7,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ViewSidebarIcon from '@mui/icons-material/ViewSidebar';
 import MuiDrawer from './Drawer';
 import { useDispatch } from 'react-redux';
-import {setLogout } from "../redux/Authslice";
+import { setLogout } from "../redux/Authslice";
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 
 
@@ -29,15 +32,27 @@ const Icons = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: '20px',
 }))
+
+
+
 const Navbar = () => {
-    const dispatch=useDispatch()
-    const [open,setOpen]=useState(false)
+    const [openmodal, setOpenmodal] = useState(false);
+    const dispatch = useDispatch()
+    const [open, setOpen] = useState(false)
     const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+    const Logoutuser=()=>{
+        dispatch(setLogout())
+    }
+
+    const handleClose = () => {
+        setOpenmodal(false);
+    };
     return (
         <AppBar position='sticky'>
             <StyledToolbar>
                 <Typography variant='h6' sx={{ display: { xs: 'none', sm: 'block' } }} >TrendNet</Typography>
-                <ViewSidebarIcon onClick={() => setDrawerOpen(true)}sx={{ display: { xs: 'block', sm: 'none' } }} /> 
+                <ViewSidebarIcon onClick={() => setDrawerOpen(true)} sx={{ display: { xs: 'block', sm: 'none' } }} />
                 <MuiDrawer isDrawerOpen={isDrawerOpen} setDrawerOpen={setDrawerOpen} />
                 {/* <InstagramIcon sx={{ display: { xs: 'block', sm: 'none' } }} /> */}
                 <Search style={{ borderRadius: '5px' }}><InputBase placeholder='search......' /></Search>
@@ -49,23 +64,23 @@ const Navbar = () => {
                         <NotificationsIcon />
                     </Badge>
                     <Avatar sx={{ width: 30, height: 30 }}
-                     alt="Remy Sharp"
-                      src="https://www.shutterstock.com/image-photo/stylish-handsome-man-on-color-260nw-1294745323.jpg" 
-                      onClick={e=>setOpen(true)}
-                       />
+                        alt="Remy Sharp"
+                        src="https://www.shutterstock.com/image-photo/stylish-handsome-man-on-color-260nw-1294745323.jpg"
+                        onClick={e => setOpen(true)}
+                    />
                     {/* <Typography sx={{ display: { xs: 'none', sm: 'block' } }}>shahid</Typography> */}
                 </Icons>
                 <Menu
                     id="basic-menu"
                     open={open}
-                    onClose={e=>setOpen(false)}
+                    onClose={e => setOpen(false)}
                     anchorOrigin={{
-                        vertical:'top',
-                        horizontal:'right'
+                        vertical: 'top',
+                        horizontal: 'right'
                     }}
                     transformOrigin={{
-                        vertical:'top',
-                        horizontal:'right'
+                        vertical: 'top',
+                        horizontal: 'right'
                     }}
                     // onClose={handleClose}
                     MenuListProps={{
@@ -74,7 +89,34 @@ const Navbar = () => {
                 >
                     <MenuItem >Profile</MenuItem>
                     <MenuItem >My account</MenuItem>
-                    <MenuItem onClick={() => dispatch(setLogout())} >Logout</MenuItem>
+                    {/* <MenuItem onClick={() => dispatch(setLogout())} >Logout</MenuItem> */}
+                    <MenuItem onClick={() => setOpenmodal(true)} >Logout</MenuItem>
+
+                    {/* dialog modal */}
+
+                    <Dialog
+                        open={openmodal}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-describedby="alert-dialog-slide-description"
+                    >
+                        <DialogTitle>{"are you sure?"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                you can click yes to Logout
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>No</Button>
+                            <Button onClick={Logoutuser}>yes</Button>
+                        </DialogActions>
+                    </Dialog>
+                    {/* end dialog modal */}
+
+
+
+
                 </Menu>
             </StyledToolbar>
         </AppBar>

@@ -19,42 +19,36 @@ const defaultTheme = createTheme();
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = async({userName,password }) => {
-        const formdata = {userName,password}
-        console.log(formdata);
-
-        const response =await LoginUser(formdata)
-        console.log(response,"rrrr");
-        if(response.status==="success"){
+    const onSubmit = async ({ userName, password }) => {
+        const formdata = { userName, password }
+        const response = await LoginUser(formdata)
+        if (response.status === "success") {
             dispatch(setLogin(response));
-         navigate('/')
+            navigate('/')
         }
 
     };
 
 
 
-//googlelogin
-const handleGoogleLogin = async()=>{
-    await signInWithPopup(auth,provider).then(async (UserCredentials)=>{
-    console.log(UserCredentials);
-    })
-   }
 
 
-
-
+    const submit = (decoded) => {
+        console.log(decoded,"ffffffffff");
+    }
 
 
 
@@ -78,16 +72,28 @@ const handleGoogleLogin = async()=>{
                     </Typography>
 
 
-                    <Button onClick={handleGoogleLogin} type="submit" startIcon={<GoogleIcon/>} fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
-                            Google with login
-                        </Button>
-                        <Typography component="h1" variant="p" mt={1}>
+                    {/* <Button onClick={submit} type="submit" startIcon={<GoogleIcon />} fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                        Google with login
+                    </Button> */}
+                    <GoogleOAuthProvider clientId="632819420631-vemapc16920pph63ugk3ajeiphk409pp.apps.googleusercontent.com">
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                const decoded = jwt_decode(credentialResponse.credential);
+                                {submit(decoded)}
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                        />
+
+                    </GoogleOAuthProvider>
+                    <Typography component="h1" variant="p" mt={1}>
                         OR
                     </Typography>
 
 
                     <form noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(onSubmit)}>
-                    <TextField
+                        <TextField
                             margin="normal"
                             required
                             fullWidth
@@ -137,7 +143,7 @@ const handleGoogleLogin = async()=>{
                         </Grid>
                     </form>
                 </Box>
-                < ToastContainer/>
+                < ToastContainer />
             </Container>
         </ThemeProvider>
     );
