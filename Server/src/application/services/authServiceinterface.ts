@@ -4,6 +4,7 @@ export const authServiceInterface=(service:AuthServiceReturn) => {
     const encryptPassword = (password:string) => service.encryptPassword(password);
   
     const comparePassword = (password:string, hashedPassword:string) =>
+    
       service.comparePassword(password, hashedPassword);
   
     const verifyPassword = (token:string) => service.verifyToken(token)

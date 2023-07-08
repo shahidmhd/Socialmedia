@@ -3,6 +3,7 @@ import { HttpStatus } from "../../../types/httpstatus"
 import { UserDbInterface } from "../../repositories/userDbRepository";
 import AppError from "../../../util/appError"
 import { AuthServiceInterface } from "../../services/authServiceinterface";
+import { AdminDbInterface } from "../../repositories/adminDbrepositoryinterface";
 
 export const userRegister = async (
   user: {
@@ -69,3 +70,33 @@ export const userLogin = async (
   };
 
 
+  export const adminlogin = async (
+    userName: string,
+    password: string,
+    adminRepository: ReturnType<AdminDbInterface>,
+    authService: ReturnType<AuthServiceInterface>
+  ) => {
+
+     console.log(userName,password,"sghaus");
+     
+ 
+    
+    const admin: any = await adminRepository.getAdminByuserName(userName);
+    console.log(admin);
+    
+    if (!admin) {
+      throw new AppError("This admin does not exist", HttpStatus.UNAUTHORIZED);
+    }
+    const isPasswordCorrect = await authService.comparePassword(
+      password,
+      admin.password
+    );
+    if (!isPasswordCorrect) {
+      throw new AppError(
+        "Sorry, your password was incorrect. Please check your password",
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+    const token = authService.generateToken(admin._id.toString());
+    return { token, admin };
+  };

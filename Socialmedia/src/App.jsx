@@ -4,10 +4,14 @@ import Home from './pages/Home'
 import Loginpage from './pages/Loginpage'
 import Signuppage from './pages/Signuppage'
 import { useSelector } from 'react-redux'
+import AdminLogin from './pages/Admin/AdminLogin'
+import AdminHome from './pages/Admin/AdminHome'
 
 
 const App = () => {
   const token = useSelector((state) => state.Authslice.token);
+  const admintoken=useSelector((state)=>state.Authslice.adminToken)
+  console.log(admintoken,"admintoken");
   console.log(token, "tttttttttttttt")
   return (
     <>
@@ -29,6 +33,16 @@ const App = () => {
             path='/signup'
             element={token ? <Navigate to='/' /> : <Signuppage/>}
           />
+           <Route
+            path='/admin'
+            element={admintoken? <Navigate to='/admin/dashboard'/>:<AdminLogin/>}
+          />
+          <Route
+            path='/admin/dashboard'
+            element={admintoken ? <AdminHome/>:<Navigate to='/admin'/>}
+          />
+          
+          
         </Routes>
       </Router>
     </>

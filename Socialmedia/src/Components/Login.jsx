@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Login = () => {
     const dispatch=useDispatch()
     const navigate=useNavigate()
@@ -43,6 +44,20 @@ const Login = () => {
     };
 
 
+
+//googlelogin
+const handleGoogleLogin = async()=>{
+    await signInWithPopup(auth,provider).then(async (UserCredentials)=>{
+    console.log(UserCredentials);
+    })
+   }
+
+
+
+
+
+
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs" sx={{ justifyContent: 'center', mt: 5 }}>
@@ -63,7 +78,7 @@ const Login = () => {
                     </Typography>
 
 
-                    <Button type="submit" startIcon={<GoogleIcon/>} fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                    <Button onClick={handleGoogleLogin} type="submit" startIcon={<GoogleIcon/>} fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
                             Google with login
                         </Button>
                         <Typography component="h1" variant="p" mt={1}>

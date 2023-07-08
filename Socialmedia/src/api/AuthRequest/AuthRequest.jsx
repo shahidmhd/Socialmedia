@@ -1,6 +1,7 @@
 import ApI from '../instance'
 
 export const Register = async (formData) => {
+  console.log(formData,"formdata");
     try {
       const response = await ApI.post("/api/auth/register", formData);
       return response.data;

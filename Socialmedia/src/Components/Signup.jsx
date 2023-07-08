@@ -34,6 +34,7 @@ const Signup = () => {
 
     const onSubmit = async ({ name, userName, email, number, password }) => {
         const formdata = { name, userName, email, number, password }
+        console.log(formdata,"fffff");
         const response = await Register(formdata)
         if (response.status === "success") {
             dispatch(setLogin(response));
