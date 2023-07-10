@@ -20,7 +20,7 @@ import { setLogin } from "../redux/Authslice";
 import { Link } from 'react-router-dom';
 
 const Signup = () => {
-  const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const {
         register,
@@ -34,21 +34,29 @@ const Signup = () => {
 
     const onSubmit = async ({ name, userName, email, number, password }) => {
         const formdata = { name, userName, email, number, password }
-        console.log(formdata,"fffff");
-        const response = await Register(formdata)
+        const response = await Register(formdata, handleToast)
+        console.log(response,"responsevvvvvvvvv");
         if (response.status === "success") {
-            toast.success(response.message);
-            setTimeout(()=>{
+          handleToast(response.message,response.status)
+            setTimeout(() => {
                 dispatch(setLogin(response));
-            },2000)
-            setTimeout(()=>{
+            }, 2000)
+            setTimeout(() => {
                 navigate('/');
-               }, 2000);
-        }else{
-            toast.error("some thing wrong")
+            }, 2000);
+        } else {
+            handleToast("something went wrong", "error")
         }
 
 
+    };
+
+    const handleToast = (message, type) => {
+        if (type === "success") {
+            toast.success(message);
+        } else if (type === "error") {
+            toast.error(message);
+        }
     };
 
     const validatePhoneNumber = (value) => {
@@ -195,7 +203,7 @@ const Signup = () => {
                         </Grid>
                     </form>
                 </Box>
-                < ToastContainer/>
+                < ToastContainer />
             </Container>
         </ThemeProvider>
     );

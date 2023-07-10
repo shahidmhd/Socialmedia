@@ -93,8 +93,6 @@ const authController = (
         const name:string=req.body?.name;
         const userName: string = req.body?.userName;
         const email: string = req.body?.email;
-console.log(name,userName,"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-
         const token = await googleLogin(
           name,
           userName,

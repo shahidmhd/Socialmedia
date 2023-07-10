@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { Typography } from '@mui/material';
 
 
 const columns = [
@@ -72,7 +73,12 @@ export default function StickyHeadTable() {
   };
 
   return (
-    <Paper  sx={{ width: '100%', overflow: 'hidden'}}>
+    <>
+    <Typography mt={5} variant="h3" component="h1" align="center">
+        Users Page
+      </Typography>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <Paper  sx={{ width: '100%', overflow: 'hidden',m:5}}>
       <TableContainer sx={{ maxHeight: 440 }} >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -120,5 +126,7 @@ export default function StickyHeadTable() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
+    </div>
+    </>
   );
 }

@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import GoogleIcon from '@mui/icons-material/Google';
 import { useForm } from 'react-hook-form';
 import { googleLogin, LoginUser } from '../api/AuthRequest/AuthRequest';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +21,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-
 const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,31 +32,43 @@ const Login = () => {
 
     const onSubmit = async ({ userName, password }) => {
         const formdata = { userName, password }
-        const response = await LoginUser(formdata)
+        const response = await LoginUser(formdata, handleToast)
+        console.log(response);
         if (response.status === "success") {
-            dispatch(setLogin(response));
-            navigate('/')
+            handleToast(response.message, response.status)
+            setTimeout(() => {
+                dispatch(setLogin(response));
+                navigate('/')
+            }, 2000)
+        } else {
+            handleToast("something went wrong", "error")
         }
 
+    };
+
+    const handleToast = (message, type) => {
+        if (type === "success") {
+            toast.success(message);
+        } else if (type === "error") {
+            toast.error(message);
+        }
     };
 
 
 
 
-
-    const submit = async(decoded) => {
-        const name=decoded.given_name
-        const userName=decoded.name
-        const email=decoded.email
-        const formdata={name,userName,email}
-console.log(formdata);
-        const response=await googleLogin(formdata)
-        console.log(response,"res");
+    const submit = async (decoded) => {
+        const name = decoded.given_name
+        const userName = decoded.name
+        const email = decoded.email
+        const formdata = { name, userName, email }
+        const response = await googleLogin(formdata)
+        console.log(response, "res");
         if (response.status === "success") {
             dispatch(setLogin(response));
             navigate('/')
         }
-     
+
     }
 
 
@@ -90,7 +100,7 @@ console.log(formdata);
                         <GoogleLogin
                             onSuccess={credentialResponse => {
                                 const decoded = jwt_decode(credentialResponse.credential);
-                                {submit(decoded)}
+                                { submit(decoded) }
                             }}
                             onError={() => {
                                 console.log('Login Failed');
