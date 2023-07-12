@@ -6,7 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SendIcon from '@mui/icons-material/Send';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+// import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 import React from 'react';
 
@@ -67,14 +67,14 @@ const MuiDrawer = ({isDrawerOpen, setDrawerOpen}) => {
               <ListItemText primary="profile" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <DarkModeIcon/>
               </ListItemIcon>
               <Switch />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           </List>
                     </Box>
                 </Drawer>

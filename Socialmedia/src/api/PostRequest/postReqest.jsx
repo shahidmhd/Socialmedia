@@ -3,14 +3,13 @@ import ApI from '../instance'
 
 export const createPost = async (token, formData) => {
     try {
-
         const response = await ApI.post("/api/post/", formData, {
             "Content-Type": "multipart/form-data",
         });
-        console.log(token, "token");
-        console.log(formData, "formData")
-
+        return response.data;
     } catch (error) {
-        console.log(error, "post");
+        // Handle error
+        console.error("Error creating post:", error);
+        throw error;
     }
 };

@@ -86,14 +86,14 @@ const Sidebar = () => {
               <ListItemText primary="profile" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <DarkModeIcon />
               </ListItemIcon>
               <Switch />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Box>
     </Box>

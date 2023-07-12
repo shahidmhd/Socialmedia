@@ -5,11 +5,13 @@ import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch} from 'react-redux';
 import { createPost } from '../../api/PostRequest/postReqest';
+import { setUpdatePost } from '../../redux/Authslice';
 
 
 function AddPhoto({ open, setopen }) {
+  const dispatch=useDispatch()
   const [textFieldValue, setTextFieldValue] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
   const { _id, userName } = useSelector((state) => state.Authslice.user);
@@ -50,9 +52,19 @@ function AddPhoto({ open, setopen }) {
 
 
     try {
-      const posts = await createPost(token, formdata);
+      const response = await createPost(token, formdata);
+      console.log(response);
+      if(response.status==="success"){
+        dispatch(setUpdatePost({ posts: response.newPost }));
+        setopen(false)
+        toast.success("success")
+      }
+    
+
+      console.log(response,"this is response");
     } catch (error) {
-     console.log(error);
+      console.log(error);
+      toast.error("An error occurred while creating the post");
     }
    
   };
