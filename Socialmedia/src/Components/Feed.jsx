@@ -5,7 +5,7 @@ import Post from './Post'
 const Feed = () => {
   let arr = [1, 2, 3, 4]
   return (
-    <Box flex={4} p={2}>
+    <Box p={2}  sx={{width:"90%",height:"90%"}}>
       {
         arr.map((item, index) => {
           return(

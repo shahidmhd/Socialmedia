@@ -10,64 +10,64 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import React from 'react';
 
-const MuiDrawer = ({isDrawerOpen, setDrawerOpen}) => {
-    
-    return (
-        <>
-            <Box pt={3} pl={3} sx={{cursor: 'pointer'}}>
-                <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
-                    <Box p={2} width={'250px'} textAlign={'center'} role='presentation'>
-                    <Typography variant='h6'  >TrendNet</Typography>
-                        <List>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <HomeIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Home"/>
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <PeopleAltRoundedIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Search" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <SendIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Message" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <NotificationsIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Notification"  />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="settings"/>
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
-              <ListItemIcon>
-                <AccountBoxIcon/>
-              </ListItemIcon>
-              <ListItemText primary="profile" />
-            </ListItemButton>
-          </ListItem>
-          {/* <ListItem disablePadding>
+const MuiDrawer = ({ isDrawerOpen, setDrawerOpen }) => {
+
+  return (
+    <>
+      <Box pt={3} pl={3} sx={{ cursor: 'pointer' }}>
+        <Drawer anchor='left' open={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
+          <Box p={2} width={'250px'} textAlign={'center'} role='presentation'>
+            <Typography variant='h6'  >TrendNet</Typography>
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <PeopleAltRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Search" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <SendIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Message" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <NotificationsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Notification" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="settings" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href='#sample'>
+                  <ListItemIcon>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="profile" />
+                </ListItemButton>
+              </ListItem>
+              {/* <ListItem disablePadding>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <DarkModeIcon/>
@@ -75,12 +75,12 @@ const MuiDrawer = ({isDrawerOpen, setDrawerOpen}) => {
               <Switch />
             </ListItemButton>
           </ListItem> */}
-          </List>
-                    </Box>
-                </Drawer>
-            </Box>
-        </>
-    )
+            </List>
+          </Box>
+        </Drawer>
+      </Box>
+    </>
+  )
 }
 
 export default MuiDrawer;

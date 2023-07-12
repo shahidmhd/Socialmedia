@@ -8,7 +8,7 @@ const Rightbar = () => {
       sx={{ display: { xs: 'none', sm: 'block' } }}
     >
       <Box position="fixed" width={300}>
-        {/* <Typography variant='h6' fontWeight={100}>Online Friends</Typography>
+        <Typography variant='h6' fontWeight={100}>Online Friends</Typography>
         <AvatarGroup max={7}>
           <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFa7t0SUJEnaNsIh4xPYa_OsrxyFgTFYEL4NQH1QYS6gLBxlJ-q2BiNQxFr6oVvtc-YEI&s" />
           <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFa7t0SUJEnaNsIh4xPYa_OsrxyFgTFYEL4NQH1QYS6gLBxlJ-q2BiNQxFr6oVvtc-YEI&s" />
@@ -18,8 +18,8 @@ const Rightbar = () => {
           <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFa7t0SUJEnaNsIh4xPYa_OsrxyFgTFYEL4NQH1QYS6gLBxlJ-q2BiNQxFr6oVvtc-YEI&s" />
           <Avatar alt="Remy Sharp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFa7t0SUJEnaNsIh4xPYa_OsrxyFgTFYEL4NQH1QYS6gLBxlJ-q2BiNQxFr6oVvtc-YEI&s" />
           <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-        </AvatarGroup> */}
-        {/* <Typography variant='h6' fontWeight={100} mt={5} mb={2}>Latest Photos</Typography>
+        </AvatarGroup>
+        <Typography variant='h6' fontWeight={100} mt={5} mb={2}>Latest Photos</Typography>
         <ImageList variant="masonry" cols={3} rowHeight={100} gap={5}>
         <ImageListItem>
           <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvhFZ5YLCMYTYoiBfRaFvg_OlLPrOp-tDKm1sWT_it&s'/>
@@ -30,8 +30,8 @@ const Rightbar = () => {
         <ImageListItem>
           <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvhFZ5YLCMYTYoiBfRaFvg_OlLPrOp-tDKm1sWT_it&s'/>
         </ImageListItem>
-        </ImageList> */}
-        <Typography variant='h6' fontWeight={100} mt={5} mb={2}>ADs</Typography>
+        </ImageList>
+        {/* <Typography variant='h6' fontWeight={100} mt={5} mb={2}>ADs</Typography>
         <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
         <CardMedia
@@ -54,7 +54,7 @@ const Rightbar = () => {
           Share
         </Button>
       </CardActions>
-    </Card>
+    </Card> */}
     <Typography variant='h6' fontWeight={100} mt={5} mb={2}>Latest Conversation</Typography>
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">

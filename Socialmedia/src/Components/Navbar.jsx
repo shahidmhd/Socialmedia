@@ -49,7 +49,7 @@ const Navbar = () => {
         setOpenmodal(false);
     };
     return (
-        <AppBar position='sticky'>
+        <AppBar position='fixed'>
             <StyledToolbar>
                 <Typography variant='h6' sx={{ display: { xs: 'none', sm: 'block' } }} >TrendNet</Typography>
                 <ViewSidebarIcon onClick={() => setDrawerOpen(true)} sx={{ display: { xs: 'block', sm: 'none' } }} />

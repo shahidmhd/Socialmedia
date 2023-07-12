@@ -13,6 +13,7 @@ const Post = () => {
     
     <Card  sx={{margin:5,boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)'}}>
         <CardHeader
+        sx={{bgcolor:'#e0dada'}}
           avatar={
             <Avatar style={{ backgroundColor: 'red' }} aria-label="recipe">
               R
@@ -35,8 +36,7 @@ const Post = () => {
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             This impressive paella is a perfect party dish and a fun meal to cook
-            together with your guests. Add 1 cup of frozen peas along with the mussels,
-            if you like.
+           
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

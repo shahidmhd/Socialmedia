@@ -21,69 +21,67 @@ const Sidebar = () => {
 
   return (
     <Box
-      borderRadius={"5px"}
-      flex={1}
-      p={2}
+    
+      
       m={1}
-      sx={{ display: { xs: 'none', sm: 'block' } }}
     >
-      <Box position='fixed'>
+      <Box position='fixed' borderRight={1} height={"100%"} py={5}>
         <List>
           <ListItem disablePadding>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary="Home" />
+              <ListItemText primary="Home"  sx={{ display: { xs: 'none', sm: 'block' } }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <PeopleAltRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Search" />
+              <ListItemText primary="Search"   sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href='#'>
+          <ListItem disablePadding sx={{mt:2}}>
+            <ListItemButton onClick={handleModalOpen}>
               <ListItemIcon>
                 <AddAPhotoIcon />
               </ListItemIcon>
-              <ListItemText onClick={handleModalOpen} primary="New post" />
+              <ListItemText  primary="New post"   sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
          {open && <Addphoto open={open} setopen={setopen}/>}
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <SendIcon />
               </ListItemIcon>
-              <ListItemText primary="Message" />
+              <ListItemText primary="Message"  sx={{ display: { xs: 'none', sm: 'block' } }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
-              <ListItemText primary="Notification" />
+              <ListItemText primary="Notification"   sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary="settings" />
+              <ListItemText primary="settings"  sx={{ display: { xs: 'none', sm: 'block' } }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
-              <ListItemText primary="profile" />
+              <ListItemText primary="profile"  sx={{ display: { xs: 'none', sm: 'block' } }} />
             </ListItemButton>
           </ListItem>
           {/* <ListItem disablePadding>
