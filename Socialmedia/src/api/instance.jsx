@@ -1,7 +1,13 @@
 import axios from 'axios'
+const slice=localStorage.getItem("reduxState")
+let tokendata=JSON.parse(slice)
+const token=tokendata.Authslice.token
+
+
+
 const instance = axios.create({
-    baseURL: "http://localhost:5000",
-    // headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    baseURL: "http://localhost:3000",
+    // headers: { authorization: `Bearer ${token}` },
   });
 
 

@@ -8,9 +8,8 @@ import CommentIcon from '@mui/icons-material/Comment';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 const Post = () => {
   return (
-    <Card sx={{margin:5,boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)' }}>
+    <Card  sx={{margin:5,boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)'}}>
         <CardHeader
-        sx={{bgcolor:"#e6eaf0"}}
           avatar={
             <Avatar style={{ backgroundColor: 'red' }} aria-label="recipe">
               R
@@ -47,6 +46,7 @@ const Post = () => {
           <IconButton aria-label="share">
             <TelegramIcon/>
           </IconButton>
+          
           <IconButton aria-label="save" sx={{ marginLeft: 'auto' }}>
             <Checkbox
               icon={<BookmarkBorderIcon/>}

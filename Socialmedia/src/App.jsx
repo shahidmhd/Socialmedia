@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom"
 import Home from './pages/Home'
 import Loginpage from './pages/Loginpage'
@@ -6,6 +6,8 @@ import Signuppage from './pages/Signuppage'
 import { useSelector } from 'react-redux'
 import AdminLogin from './pages/Admin/AdminLogin'
 import AdminHome from './pages/Admin/AdminHome'
+import { createTheme } from '@mui/material'
+import { ThemeProvider } from '@emotion/react'
 
 
 const App = () => {
@@ -13,8 +15,19 @@ const App = () => {
   const admintoken=useSelector((state)=>state.Authslice.adminToken)
   console.log(admintoken,"admintoken");
   console.log(token, "tttttttttttttt")
+
+
+  const [mode,setMode]=useState("dark")
+
+ const darktheme=createTheme({
+  palatte:{
+    mode:mode
+  }
+ })
+
   return (
     <>
+    <ThemeProvider theme={darktheme}>
       <Router>
         <Routes>
           <Route
@@ -45,6 +58,7 @@ const App = () => {
           
         </Routes>
       </Router>
+      </ThemeProvider>
     </>
 
   )

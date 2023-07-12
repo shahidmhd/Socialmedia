@@ -88,7 +88,7 @@ const Login = () => {
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h5" mb={3}>
                         Log in
                     </Typography>
 
@@ -96,8 +96,11 @@ const Login = () => {
                     {/* <Button onClick={submit} type="submit" startIcon={<GoogleIcon />} fullWidth variant="outlined" sx={{ mt: 3, mb: 2 }}>
                         Google with login
                     </Button> */}
-                    <GoogleOAuthProvider clientId="632819420631-vemapc16920pph63ugk3ajeiphk409pp.apps.googleusercontent.com">
+                    <GoogleOAuthProvider  clientId="632819420631-vemapc16920pph63ugk3ajeiphk409pp.apps.googleusercontent.com">
                         <GoogleLogin
+                        shape='circle'
+                        size='large'
+                        theme='filled_black'
                             onSuccess={credentialResponse => {
                                 const decoded = jwt_decode(credentialResponse.credential);
                                 { submit(decoded) }
