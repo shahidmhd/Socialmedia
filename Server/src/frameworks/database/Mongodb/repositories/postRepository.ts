@@ -18,10 +18,13 @@ const createPost=async(post:{
 
     return await newPost.save();
 };
-
+const getAllPost = async () => {
+    return await Post.find().sort({ createdAt: -1 });
+  };
 
 return {
-   createPost
+   createPost,
+   getAllPost
 }
 
 };

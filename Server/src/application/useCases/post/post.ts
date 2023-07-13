@@ -18,3 +18,14 @@ export const postCreate = async (
   }
   return newPost;
   }
+
+
+  export const getAllPosts = async (
+    repository: ReturnType<postDbInterfaceType>
+  ) => {
+    const getPosts = await repository.getAllPost();
+    if (!getPosts) {
+      throw new AppError("Posts Are not Available", HttpStatus.BAD_REQUEST);
+    }
+    return getPosts;
+  };

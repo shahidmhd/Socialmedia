@@ -7,10 +7,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector ,useDispatch} from 'react-redux';
 import { createPost } from '../../api/PostRequest/postReqest';
-import { setUpdatePost } from '../../redux/Authslice';
 
 
-function AddPhoto({ open, setopen }) {
+
+function AddPhoto({ open, setopen ,setrender}) {
   const dispatch=useDispatch()
   const [textFieldValue, setTextFieldValue] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
@@ -55,8 +55,8 @@ function AddPhoto({ open, setopen }) {
       const response = await createPost(token, formdata);
       console.log(response);
       if(response.status==="success"){
-        dispatch(setUpdatePost({ posts: response.newPost }));
         setopen(false)
+        setrender(true)
         toast.success("success")
       }
     

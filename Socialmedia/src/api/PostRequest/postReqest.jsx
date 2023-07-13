@@ -13,3 +13,15 @@ export const createPost = async (token, formData) => {
         throw error;
     }
 };
+
+export const getPosts = async () => {
+    try {
+      const response = await ApI.get("api/post/");
+      const data =await response.data;
+      return data;
+    } catch (error) {
+      // Handle error
+      console.error("Error getting posts:", error);
+      throw error;
+    }
+  };

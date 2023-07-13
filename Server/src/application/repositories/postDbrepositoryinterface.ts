@@ -8,10 +8,11 @@ export const postDbInterface = (repository:ReturnType<postRepositoryType>) => {
         image: string[] ;
         userName: string;
     })=> await repository.createPost(post)
-
+    const getAllPost = async () => await repository.getAllPost()
 
     return {
-        createPost
+        createPost,
+        getAllPost
     }
 }
 

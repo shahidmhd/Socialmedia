@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 import Addphoto from './Modal/Addphoto';
 
 
-const Sidebar = () => {
+const Sidebar = ({setrender}) => {
   const [open, setopen] = useState(false)
   
   const handleModalOpen = () => {
@@ -51,7 +51,7 @@ const Sidebar = () => {
               <ListItemText  primary="New post"   sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
-         {open && <Addphoto open={open} setopen={setopen}/>}
+         {open && <Addphoto open={open} setopen={setopen} setrender={setrender}/>}
           <ListItem disablePadding sx={{mt:2}}>
             <ListItemButton component="a" href='#sample'>
               <ListItemIcon>

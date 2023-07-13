@@ -29,11 +29,11 @@ export const Authslice = createSlice({
       state.admin = null;
       state.adminToken = null;
     },
-    setUpdatePost: (state, action) => {
-     state.posts = action.payload.posts;
-    },
+    setPosts: (state, action) => {
+      state.posts = action.payload.posts;
+  },
   }
 });
 
-export const { setLogin, setLogout, setAdminLogin, setadminLogout, setUpdatePost } = Authslice.actions;
+export const { setLogin, setLogout, setAdminLogin, setadminLogout,setPosts } = Authslice.actions;
 export default Authslice.reducer;

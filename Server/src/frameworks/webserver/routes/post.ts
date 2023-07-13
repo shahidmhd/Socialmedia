@@ -10,6 +10,7 @@ const postRouter=()=>{
     const controller=postController(postDbInterface,postRepositoryImp)
 
     router.post("/",upload.array('picture',4) ,controller.createpost);
+    router.get("/",controller.getPosts)
 
 return router;
 }

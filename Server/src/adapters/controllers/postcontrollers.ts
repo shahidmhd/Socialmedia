@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 import cloudinary from "../../frameworks/services/cloudstorage";
 import { postRepositoryType } from "../../frameworks/database/Mongodb/repositories/postRepository";
 import { postDbInterfaceType } from "../../application/repositories/postDbrepositoryinterface";
-import { postCreate } from "../../application/useCases/post/post";
+import { getAllPosts, postCreate } from "../../application/useCases/post/post";
 
 interface UploadedFile {
     fieldname: string;
@@ -48,8 +48,18 @@ const dbRepositoryPost=postDbInterface(postDbImp())
        
         
     })
+
+
+    const getPosts = asyncHandler ( async (req:Request, res: Response) => {
+      const posts = await getAllPosts(dbRepositoryPost)
+      res.json({
+        status : "success",
+        posts
+      })
+    })
     return {
-        createpost
+        createpost,
+        getPosts
        
       };
 }   
