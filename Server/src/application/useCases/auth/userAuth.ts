@@ -64,7 +64,12 @@ export const userLogin = async (
         HttpStatus.UNAUTHORIZED
       );
     }
-    
+    if (user.isBlocked) {
+      throw new AppError(
+        "Sorry, your account is blocked by admin",
+        HttpStatus.UNAUTHORIZED
+      );
+    }
     const token = authService.generateToken(user._id.toString());
     return { token, user };
   };

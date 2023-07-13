@@ -27,13 +27,32 @@ export const userRepositoryMongoDB = () => {
         const user: any = await User.findOne({ userName });
         return user;
       };
+      const getAllusers = async () => {
+        return await User.find()
+      };
+      const userHandle = async (id: string) => {
+        try {
+          const user: any = await User.findOne({ _id: id });
+          if (!user) {
+            return;
+          }
+          const newIsBlocked = !user.isBlocked;
+          user.isBlocked = newIsBlocked;
+          return await user.save();
+        } catch (error) {
+          console.error(`Error updating user with ID ${id}:`, error);
+        }
+      };
+      
     
   
     return {
       addUser,
       getUserByEmail,
       getUserById,
-      getUserByUserName 
+      getUserByUserName ,
+      getAllusers,
+      userHandle
     };
   };
   

@@ -2,11 +2,10 @@ import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText
 import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
-import SettingsIcon from '@mui/icons-material/Settings';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import SendIcon from '@mui/icons-material/Send';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { Link } from 'react-router-dom';
+
 
 const adminDrawer = ({adminDrawerOpen, setadminDrawerOpen}) => {
     return (
@@ -19,11 +18,11 @@ const adminDrawer = ({adminDrawerOpen, setadminDrawerOpen}) => {
                         </Typography>
                         <List>
           <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
+            <ListItemButton>
               <ListItemIcon>
                 <HomeIcon/>
               </ListItemIcon>
-              <ListItemText primary="Home"/>
+              <Link to="/admin/home">Home</Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -31,7 +30,7 @@ const adminDrawer = ({adminDrawerOpen, setadminDrawerOpen}) => {
               <ListItemIcon>
                 <PeopleAltRoundedIcon/>
               </ListItemIcon>
-              <ListItemText primary="Users" />
+              <Link to="/admin/dashboard">Users</Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

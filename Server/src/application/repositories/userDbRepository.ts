@@ -12,17 +12,22 @@ export const userDbRepository = (
   }) => {
     return await repository.addUser(user);
   };
+
+  const getAllUsers = async () => await repository.getAllusers();
   const getUserByEmail = async (email: string) =>
     await repository.getUserByEmail(email);
     const getUserById = async (id: string) => await repository.getUserById(id);
     const getUserByUserName = async (userName: string) =>
     await repository.getUserByUserName(userName);
-  
+    const userHandle = async (id: string) =>
+    await repository.userHandle(id);
   return {
     addUser,
     getUserByEmail,
     getUserById,
     getUserByUserName,
+    getAllUsers,
+    userHandle
   };
 };
 export type UserDbInterface = typeof userDbRepository;

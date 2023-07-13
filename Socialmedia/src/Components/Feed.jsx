@@ -2,10 +2,12 @@ import { Box } from '@mui/material'
 import React,{useState,useEffect} from 'react'
 import Post from './Post'
 import { getPosts } from '../api/PostRequest/postReqest'
+import { useSelector } from 'react-redux'
 const Feed = ({render}) => {
+  const token = useSelector((state) => state.Authslice.token);
   const [post,setposts]=useState([])
   const getPost = async () => {
-    const response = await getPosts();
+    const response = await getPosts(token);
       console.log(response.posts);
       setposts(response.posts)
     

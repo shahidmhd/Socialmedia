@@ -4,6 +4,7 @@ import ApI from '../instance'
 export const createPost = async (token, formData) => {
     try {
         const response = await ApI.post("/api/post/", formData, {
+            headers: { Authorization: `Bearer ${token}` },
             "Content-Type": "multipart/form-data",
         });
         return response.data;
@@ -14,9 +15,11 @@ export const createPost = async (token, formData) => {
     }
 };
 
-export const getPosts = async () => {
+export const getPosts = async (token) => {
     try {
-      const response = await ApI.get("api/post/");
+      const response = await ApI.get("api/post/",{
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data =await response.data;
       return data;
     } catch (error) {

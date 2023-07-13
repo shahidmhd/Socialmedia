@@ -8,6 +8,8 @@ import AdminLogin from './pages/Admin/AdminLogin'
 import AdminHome from './pages/Admin/AdminHome'
 import { createTheme } from '@mui/material'
 import { ThemeProvider } from '@emotion/react'
+import Dashboard from './pages/Admin/Dashboard'
+
 
 
 const App = () => {
@@ -48,11 +50,15 @@ const App = () => {
           />
            <Route
             path='/admin'
-            element={admintoken? <Navigate to='/admin/dashboard'/>:<AdminLogin/>}
+            element={admintoken? <Navigate to='/admin/home'/>:<AdminLogin/>}
           />
           <Route
             path='/admin/dashboard'
             element={admintoken ? <AdminHome/>:<Navigate to='/admin'/>}
+          />
+          <Route
+            path='/admin/home'
+            element={admintoken ? <Dashboard/>:<Navigate to='/admin'/>}
           />
           
           
