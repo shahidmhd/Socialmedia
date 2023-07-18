@@ -15,12 +15,9 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
-      // unique: true,
     },
     number: {
         type: Number,
-       
-        // unique: true,
     },
     password: {
       type: String,
@@ -30,6 +27,12 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    Bio:{
+      type:String,
+    },
+    image:{
+      type:String
+    }
 },
   { timestamps: true }
 );

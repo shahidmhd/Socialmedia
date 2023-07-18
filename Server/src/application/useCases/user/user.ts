@@ -26,3 +26,35 @@ export const allUsers = async (
     }
     return result;
 };
+
+export const userById=async(
+  id:string,
+  repository:ReturnType<UserDbInterface>
+)=>{
+  const user=await repository.getUserById(id)
+  if(!user){
+    throw new AppError("user not found",HttpStatus.UNAUTHORIZED)
+  }
+  return user
+}
+
+
+export const profileUpdate = async (
+  id: string,
+  user: {
+    name: string;
+    userName: string;
+    email: string;
+    number: string;
+    Bio: string;
+    image?: string | null;
+  },
+  repository: ReturnType<UserDbInterface>
+) => {
+  const updateProfile = await repository.updateProfile(id, user);
+
+  if (!updateProfile) {
+    throw new AppError("user not found", HttpStatus.UNAUTHORIZED);
+  }
+  return updateProfile;
+};

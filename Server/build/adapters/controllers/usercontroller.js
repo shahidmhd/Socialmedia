@@ -31,9 +31,18 @@ const userController = (userDbRepository, userDbRepositoryImpl) => {
             isBlocked,
         });
     }));
+    const getUserById = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const user = yield (0, user_1.userById)(id, dbRepositoryUser);
+        res.json({
+            status: "success",
+            user,
+        });
+    }));
     return {
         getAllUsers,
-        handleUser
+        handleUser,
+        getUserById,
     };
 };
 exports.default = userController;

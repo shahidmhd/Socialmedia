@@ -9,7 +9,9 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import React, { useState } from 'react'
 import Addphoto from './Modal/Addphoto';
-
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({setrender}) => {
   const [open, setopen] = useState(false)
@@ -17,6 +19,10 @@ const Sidebar = ({setrender}) => {
   const handleModalOpen = () => {
     setopen(true);
   };
+
+  const navigate=useNavigate()
+
+  const userId=useSelector((state) => state.Authslice.user._id)
 
 
   return (
@@ -28,11 +34,11 @@ const Sidebar = ({setrender}) => {
       <Box position='fixed' borderRight={1} height={"100%"} py={5}>
         <List>
           <ListItem disablePadding>
-            <ListItemButton component="a" href='#sample'>
+            <ListItemButton >
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary="Home"  sx={{ display: { xs: 'none', sm: 'block' } }} />
+              <Link to="/home"><ListItemText primary="Home"  sx={{ display: { xs: 'none', sm: 'block' } }}/></Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{mt:2}}>
@@ -57,11 +63,11 @@ const Sidebar = ({setrender}) => {
               <ListItemIcon>
                 <SendIcon />
               </ListItemIcon>
-              <ListItemText primary="Message"  sx={{ display: { xs: 'none', sm: 'block' } }} />
+              <Link to="/chat"><ListItemText primary="Message"  sx={{ display: { xs: 'none', sm: 'block' } }}/></Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{mt:2}}>
-            <ListItemButton component="a" href='#sample'>
+            <ListItemButton>
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
@@ -69,7 +75,7 @@ const Sidebar = ({setrender}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{mt:2}}>
-            <ListItemButton component="a" href='#sample'>
+            <ListItemButton >
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -77,11 +83,11 @@ const Sidebar = ({setrender}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{mt:2}}>
-            <ListItemButton component="a" href='#sample'>
+            <ListItemButton >
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
-              <ListItemText primary="profile"  sx={{ display: { xs: 'none', sm: 'block' } }} />
+              <ListItemText primary="profile" onClick={()=>navigate(`/profile/${userId}`)}  sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
           {/* <ListItem disablePadding>

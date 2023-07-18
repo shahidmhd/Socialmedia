@@ -9,6 +9,8 @@ import AdminHome from './pages/Admin/AdminHome'
 import { createTheme } from '@mui/material'
 import { ThemeProvider } from '@emotion/react'
 import Dashboard from './pages/Admin/Dashboard'
+import Profilepage from './pages/Profile'
+import Chatpage from './pages/Chatpage'
 
 
 
@@ -48,6 +50,10 @@ const App = () => {
             path='/signup'
             element={token ? <Navigate to='/' /> : <Signuppage/>}
           />
+            <Route
+            path='/profile/:userId'
+            element={token ? <Profilepage/> : <Navigate to='/login' /> }
+          />
            <Route
             path='/admin'
             element={admintoken? <Navigate to='/admin/home'/>:<AdminLogin/>}
@@ -59,6 +65,10 @@ const App = () => {
           <Route
             path='/admin/home'
             element={admintoken ? <Dashboard/>:<Navigate to='/admin'/>}
+          />
+          <Route
+            path='/chat'
+            element={token ? <Chatpage/> : <Navigate to='/login' /> }
           />
           
           

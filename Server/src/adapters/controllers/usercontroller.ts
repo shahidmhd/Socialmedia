@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { UserDbInterface } from "../../application/repositories/userDbRepository";
 import { UserRepositoryMongoDB } from "../../frameworks/database/Mongodb/repositories/userRepository";
-import { allUsers, userHandle } from "../../application/useCases/user/user";
+import { allUsers, profileUpdate, userById, userHandle } from "../../application/useCases/user/user";
+import cloudinary from "../../frameworks/services/cloudstorage";
 
 
 
@@ -30,11 +31,42 @@ const handleUser = asyncHandler(async (req: Request, res: Response) => {
       isBlocked,
     });
   });
+  const getUserById = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const user = await userById(id,dbRepositoryUser);
+    res.json({
+      status: "success",
+      user,
+    });
+  });
 
+
+  const updateProfile = asyncHandler(async (req: Request, res: Response) => {
+    const images: any = req?.file?.path;
+    const image= await cloudinary.uploader.upload(images)
+    const url=image.url
+    const { name, userName, email, number, Bio } = req.body;
+    const { id } = req.params;
+    const user = {
+      name,
+      userName,
+      email,
+      number,
+      Bio,
+      image:url
+    };
+    const updatedProfile = await profileUpdate(id, user, dbRepositoryUser);
+    res.json({
+      status: "success",
+      updatedProfile,
+    });
+  });
 
       return {
         getAllUsers,
-        handleUser
+        handleUser,
+        getUserById,
+        updateProfile
       }
   }
 

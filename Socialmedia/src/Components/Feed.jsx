@@ -1,46 +1,44 @@
-import { Box } from '@mui/material'
-import React,{useState,useEffect} from 'react'
-import Post from './Post'
-import { getPosts } from '../api/PostRequest/postReqest'
-import { useSelector } from 'react-redux'
-const Feed = ({render}) => {
+import { Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import Post from './Post';
+import { getPosts } from '../api/PostRequest/postReqest';
+import { useSelector } from 'react-redux';
+import LoadingComponent from './Modal/Loadingcomponent';
+
+const Feed = ({ render }) => {
   const token = useSelector((state) => state.Authslice.token);
-  const [post,setposts]=useState([])
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const getPost = async () => {
     const response = await getPosts(token);
-      console.log(response.posts);
-      setposts(response.posts)
-    
+    console.log(response.posts);
+    setPosts(response.posts);
+    setLoading(false);
   };
 
+  useEffect(() => {
+    setLoading(true);
+    getPost();
+  }, [render]);
 
-  useEffect(()=>{
-    getPost()
-  },[render])
-
- 
   return (
-    <Box p={2}  sx={{width:"90%",height:"90%"}}>
-   {
-
-    post.map((item)=>{
-        return(
-          <Post 
-          key={item._id} 
-          image={item.image}
-          userName={item.userName}
-          description={item.description}
-          date={item.updatedAt}
+    <Box p={2} sx={{ width: '90%', height: '90%' }}>
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        posts.map((item) => (
+          <Post
+            key={item._id}
+            image={item.image}
+            userName={item.userName}
+            description={item.description}
+            date={item.updatedAt}
           />
-        )
-    })
-             
-
-
-   }
-  
+        ))
+      )}
     </Box>
-  )
-}
+  );
+};
 
-export default Feed
+export default Feed;

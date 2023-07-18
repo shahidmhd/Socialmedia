@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userHandle = exports.allUsers = void 0;
+exports.userById = exports.userHandle = exports.allUsers = void 0;
 const httpstatus_1 = require("../../../types/httpstatus");
 const appError_1 = __importDefault(require("../../../util/appError"));
 const allUsers = (repository) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,3 +31,11 @@ const userHandle = (id, repository) => __awaiter(void 0, void 0, void 0, functio
     return result;
 });
 exports.userHandle = userHandle;
+const userById = (id, repository) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield repository.getUserById(id);
+    if (!user) {
+        throw new appError_1.default("user not found", httpstatus_1.HttpStatus.UNAUTHORIZED);
+    }
+    return user;
+});
+exports.userById = userById;

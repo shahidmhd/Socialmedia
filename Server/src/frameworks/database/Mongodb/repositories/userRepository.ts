@@ -43,6 +43,22 @@ export const userRepositoryMongoDB = () => {
           console.error(`Error updating user with ID ${id}:`, error);
         }
       };
+      const updateProfile = async (
+        id: string,
+        user: {
+          name: string;
+          userName: string;
+          email: string;
+          number?: string;
+          Bio?: string |null;
+          image?: string | null;
+        }
+      ) => {
+        const updatedProfile: any = await User.findByIdAndUpdate(id, user, {
+          new: true,
+        });
+        return updatedProfile;
+      };
       
     
   
@@ -52,7 +68,8 @@ export const userRepositoryMongoDB = () => {
       getUserById,
       getUserByUserName ,
       getAllusers,
-      userHandle
+      userHandle,
+      updateProfile
     };
   };
   

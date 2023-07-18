@@ -22,8 +22,6 @@ const postController=(
 )=>{
 
 const dbRepositoryPost=postDbInterface(postDbImp())
-
-
     const createpost=asyncHandler(async(req:Request,res:Response)=>{
         const files = req.files as UploadedFile[];
         const image: string[] = [];
@@ -45,8 +43,6 @@ const dbRepositoryPost=postDbInterface(postDbImp())
          status: "success",
          newPost,
        });
-       
-        
     })
 
 
