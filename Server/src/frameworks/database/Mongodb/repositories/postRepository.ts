@@ -19,8 +19,11 @@ const createPost=async(post:{
     return await newPost.save();
 };
 const getAllPost = async () => {
-    return await Post.find().sort({ createdAt: -1 });
-  };
+ const allpost= await Post.find().sort({ createdAt: -1 }).populate('userId'); 
+ console.log(allpost,"hiiiiii");
+ 
+ return allpost
+};
 
 return {
    createPost,

@@ -31,8 +31,6 @@ const authController = (
 
 
     const registerUser = asyncHandler(async (req: Request, res: Response) => {
-      console.log(req.body,"req.body");
-      
       const { name, userName, email, number, password } = req.body;
       console.log(name,"bhvdxvdxjvdxkjv");
       

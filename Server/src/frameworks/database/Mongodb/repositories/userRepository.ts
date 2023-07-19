@@ -1,4 +1,5 @@
 import User from "../Models/userModel";
+import { UserInterface } from "../../../../interface/userIntrface";
 
 export const userRepositoryMongoDB = () => {
     const addUser = async (user: {
@@ -15,16 +16,16 @@ export const userRepositoryMongoDB = () => {
 
 
     const getUserByEmail = async (email: string) => {
-        const user: any = await User.findOne({ email });
+        const user:UserInterface | null = await User.findOne({ email });
         return user;
       };
 
       const getUserById = async (id: string) => {
-        const user: any = await User.findOne({ _id: id });
+        const user:UserInterface | null = await User.findOne({ _id: id });
         return user;
       };
       const getUserByUserName = async (userName: string) => {
-        const user: any = await User.findOne({ userName });
+        const user:UserInterface |null = await User.findOne({ userName });
         return user;
       };
       const getAllusers = async () => {

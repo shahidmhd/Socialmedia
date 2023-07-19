@@ -1,8 +1,15 @@
 import { Box, Button, Divider, Modal, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile } from '../../api/UsereRequest/UserApi';
+import { setUpdate } from '../../redux/Authslice';
 
-const Editprofile = ({ open, setopen, name, userName, email, number }) => {
+const Editprofile = ({ open, setopen, name, userName, email, number, userId,setrender,render }) => {
+    const dispatch = useDispatch()
+    const token = useSelector((state) => state.Authslice.token)
+
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -16,6 +23,7 @@ const Editprofile = ({ open, setopen, name, userName, email, number }) => {
         '& > :not(style)': { m: 1 },
     };
 
+
     const {
         register,
         handleSubmit,
@@ -23,6 +31,8 @@ const Editprofile = ({ open, setopen, name, userName, email, number }) => {
         formState: { errors },
     } = useForm();
 
+
+ 
     // State for edited values
     const [editedValues, setEditedValues] = useState({
         name: name,
@@ -32,9 +42,9 @@ const Editprofile = ({ open, setopen, name, userName, email, number }) => {
         image: null,
     });
 
+
     // Handle form submission
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('userName', data.userName);
@@ -44,6 +54,10 @@ const Editprofile = ({ open, setopen, name, userName, email, number }) => {
         formData.append('image', editedValues.image);
         // Perform necessary actions with the form data
         console.log(formData);
+        const updated = await updateProfile(userId, token, formData)
+        dispatch(setUpdate(updated))
+        setrender(!render)
+        console.log(updated, "updated");
         // ...
         setopen(false); // Close the modal after submission
     };
@@ -118,7 +132,7 @@ const Editprofile = ({ open, setopen, name, userName, email, number }) => {
                                 id="bio"
                                 label="Bio"
                                 name="Bio"
-                                inputProps={{ ...register }}
+                                inputProps={{ ...register('Bio') }}
                                 onChange={handleInputChange}
                             />
 

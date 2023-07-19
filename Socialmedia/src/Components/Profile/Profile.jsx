@@ -11,15 +11,13 @@ import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
 import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
 import Editprofile from '../Modal/Editprofile';
 import Postwidget from '../widget/Postwidget';
-import { useSelector } from 'react-redux';
 
 
-function Profile() {
 
-    const name = useSelector((state) => state.Authslice.user.name);
-    const userName=useSelector((state)=>state.Authslice.user.userName)
-    const email=useSelector((state)=>state.Authslice.user.email)
-    const number=useSelector((state)=>state.Authslice.user.number)
+
+function Profile({ userData, setrender, render, currentuser }) {
+
+
     const [value, setValue] = useState(0);
     const [open, setopen] = useState(false)
 
@@ -29,7 +27,7 @@ function Profile() {
 
     return (
         <>
-          
+
 
             {/* navbar */}
             <Navbar />
@@ -41,46 +39,54 @@ function Profile() {
                     <Grid item xs={9} sm={9} md={9} lg={8} >
                         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }}>
                             <Box p={{ xs: 2, md: 7 }}>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="https://media.gettyimages.com/id/692909922/photo/hes-off-on-an-adventure.jpg?s=612x612&w=gi&k=20&c=29CscuUPzOo7zGCwuldYkoZtX_nqA8v2D7hCP9EJXww="
-                                    sx={{ width: 150, height: 150 }}
-                                />
+                                {userData?.image ?
+                                    <Avatar
+                                        alt="Remy Sharp"
+                                        src={userData.image}
+                                        sx={{ width: 150, height: 150 }}
+                                    /> :
+                                    <Avatar sx={{ width: 150, height: 150 }}>
+                                        !
+                                    </Avatar>
+                                }
+
+
                             </Box>
                             <Box p={{ xs: 2, md: 7 }} display="flex" flexDirection="column" justifyContent="center">
                                 <Stack spacing={2} direction={{ xs: 'column', md: 'row' }}>
-                                    <Typography variant="h6">{userName}</Typography>
-                                    <Button
-                                        variant="contained"
-                                        size="small"
-                                        endIcon={<EditIcon />}
-                                        onClick={() => { setopen(true) }}
-                                    >
-                                        Edit profile
-                                    </Button>
-                                    {open && <Editprofile name={name} userName={userName} email={email} number={number} open={open} setopen={setopen} />}
-                                    {/* <Button
-                                        variant="contained"
-                                        size="small"
-                                    >
-                                        follow
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color='inherit'
-                                        size="small"
-                                    >
-                                        message
-                                    </Button> */}
+                                    <Typography variant="h6">{userData?.userName}</Typography>
+                                    {
+                                        currentuser ? (
+                                            <Button
+                                                variant="contained"
+                                                size="small"
+                                                endIcon={<EditIcon />}
+                                                onClick={() => setopen(true)}
+                                            >
+                                                Edit profile
+                                            </Button>
+                                        ) : (
+                                            <>
+                                                <Button variant="contained" size="small">
+                                                    Follow
+                                                </Button>
+                                                <Button variant="contained" color="inherit" size="small">
+                                                    Message
+                                                </Button>
+                                            </>
+                                        )
+                                    }
                                 </Stack>
+                                {open && <Editprofile name={userData.name} userName={userData.userName} email={userData.email} number={userData.number} userId={userData._id} setrender={setrender} render={render} open={open} setopen={setopen} />}
                                 <Box mt={2}>
                                     <Stack spacing={2} direction="row">
                                         <Typography>10 posts</Typography>
                                         <Typography>10k followers</Typography>
                                         <Typography>20k following</Typography>
                                     </Stack>
-                                    <Typography>{name}</Typography>
-                                    <Typography>Mern stack developer    </Typography>
+                                    <Typography>{userData?.name}</Typography>
+                                    <Typography>{userData?.Bio ? userData.Bio : ""}</Typography>
+
 
                                 </Box>
                             </Box>
@@ -99,11 +105,11 @@ function Profile() {
                             </Tabs>
                         </Stack>
                         <stack>
-                        <Postwidget />
+                            <Postwidget />
                         </stack>
 
                     </Grid>
-                    
+
 
                 </Grid>
             </Box>

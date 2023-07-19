@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon build/app.js",
+    "build:watch": "npm run build -- --watch",
+    "start": "node build/app.js",
     "dev": "nodemon --exec ts-node src/app.ts"
   },
   "keywords": [],
@@ -36,6 +37,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zod": "^3.21.4"
   }
 }

@@ -31,9 +31,11 @@ const Feed = ({ render }) => {
           <Post
             key={item._id}
             image={item.image}
-            userName={item.userName}
+            userName={item.userId.userName}
             description={item.description}
             date={item.updatedAt}
+            profilepicture={item.userId.image}
+            userId={item.userId._id}
           />
         ))
       )}

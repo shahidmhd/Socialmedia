@@ -9,7 +9,7 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { makeStyles } from '@mui/styles';
-
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -37,19 +37,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ image, description,userName,date}) => {
+const Post = ({ image, description,userName,date,profilepicture,userId}) => {
+  const navigate=useNavigate()
   const classes = useStyles();
   return (
 
 
     <Card sx={{ margin: 5, boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)' }}>
       <CardHeader
-
-        sx={{ bgcolor: '#e0dada' }}
+        onClick={()=>navigate(`/profile/${userId}`)} 
+        sx={{ bgcolor: '#e0dada',cursor:'pointer' }}
         avatar={
-          <Avatar style={{ backgroundColor: 'red' }} aria-label="recipe">
-            R
-          </Avatar>
+          <Avatar sx={{cursor:'pointer'}} alt="Remy Sharp" src={profilepicture}/>
         }
         action={
           <IconButton aria-label="settings">

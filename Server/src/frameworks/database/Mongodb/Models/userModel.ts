@@ -31,8 +31,21 @@ const userSchema = new Schema(
       type:String,
     },
     image:{
-      type:String
-    }
+      type:String,
+      default:'https://cdn.freebiesupply.com/logos/large/2x/trend-logo-png-transparent.png'
+    },
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 },
   { timestamps: true }
 );

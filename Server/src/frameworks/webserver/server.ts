@@ -4,7 +4,7 @@ import configKeys from "../../config";
 const serverConfig = (server:Server) => {
     const startServer = () => {
         server.listen(configKeys.PORT, () => {
-            console.log(`Server listening on Port ${configKeys.PORT}`);
+            console.log('\x1b[34m%s\x1b[0m', `Server listening at http://localhost:${configKeys.PORT}`);
         })
     }
     return {
