@@ -25,7 +25,10 @@ export const userRepositoryMongoDB = () => {
         return user;
       };
       const getUserByUserName = async (userName: string) => {
-        const user:UserInterface |null = await User.findOne({ userName });
+        const user: UserInterface | null = await User.findOne({ userName }).populate(['following', 'followers']);
+
+        console.log(user,"userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+        
         return user;
       };
       const getAllusers = async () => {
@@ -60,6 +63,73 @@ export const userRepositoryMongoDB = () => {
         });
         return updatedProfile;
       };
+
+      const followUser = async (id: string, friendId: string) => {
+        const followingUser: any = await User.findOne({ _id: id });
+        console.log(followingUser,"following user");
+        
+        const follow: any = await User.findOne({ _id: friendId });
+        console.log(follow,"follow kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        console.log(!follow.followers);
+        
+        if (!follow.followers.includes(id)) {
+          await followingUser.updateOne(
+            {
+              $push: {
+                following: friendId,
+              },
+            },
+            { new: true }
+          );
+          await follow.updateOne(
+            {
+              $push: {
+                followers: id,
+              },
+            },
+            { new: true }
+          );
+        } else {
+          await followingUser.updateOne(
+            {
+              $pull: {
+                following: friendId,
+              },
+            },
+            { new: true }
+          );
+          await follow.updateOne(
+            {
+              $pull: {
+                followers: id,
+              },
+            },
+            { new: true }
+          );
+        }
+        const user: any = await User.findOne({ _id: id }).select("-password");
+        console.log(user,"hi userllllllllllllllllll");
+        
+        const following = await Promise.all(
+          user.following.map(
+            async (id: string) => await User.findById(id).select("-password")
+          )
+        );
+
+        console.log(following,"following");
+        
+    
+        const followers = await Promise.all(
+          user.followers.map(
+            async (id: string) => await User.findById(id).select("-password")
+          )
+        );
+
+        console.log(followers,"followersjjjjjjjjjjjjjjjjjjjjjjj");
+        
+    
+        return { following, followers };
+      };
       
     
   
@@ -70,7 +140,8 @@ export const userRepositoryMongoDB = () => {
       getUserByUserName ,
       getAllusers,
       userHandle,
-      updateProfile
+      updateProfile,
+      followUser
     };
   };
   

@@ -11,19 +11,47 @@ import ViewCompactOutlinedIcon from '@mui/icons-material/ViewCompactOutlined';
 import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
 import Editprofile from '../Modal/Editprofile';
 import Postwidget from '../widget/Postwidget';
+import { useSelector, useDispatch } from 'react-redux';
+import { followReq } from '../../api/UsereRequest/UserApi';
+import { setFollowers, setFollowing } from '../../redux/Authslice';
 
 
 
 
-function Profile({ userData, setrender, render, currentuser }) {
+function Profile({ userData, setrender, render, currentuser, id }) {
 
+    const dispatch = useDispatch()
 
+    const token = useSelector((state) => state.Authslice.token);
+    const userId = useSelector((state) => state.Authslice.user._id);
+    const following = useSelector((state) => state.Authslice.user.following);
+    const isFollowing = following.find((following) => following._id === id);
+    const followers = useSelector((state) => state.Authslice.user.followers);
+    const isFollower = followers.find((followers) => followers._id === id);
     const [value, setValue] = useState(0);
     const [open, setopen] = useState(false)
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    // console.log(following,"folloewing");
+    // console.log(isFollowing,"isfollowing");
+    const handleFollow = async () => {
+        console.log(token, userId, userData?._id);
+        const response = await followReq(userId, userData?._id, token);
+        console.log(response);
+        dispatch(setFollowers({ followers: response.followers }));
+        dispatch(setFollowing({ following: response.following }));
+        // console.log(response, "response");
+
+    }
+    console.log(following, "following");
+
+    console.log(isFollowing, "gggggggggggggggggggggggg");
+
+
+
 
     return (
         <>
@@ -67,9 +95,10 @@ function Profile({ userData, setrender, render, currentuser }) {
                                             </Button>
                                         ) : (
                                             <>
-                                                <Button variant="contained" size="small">
-                                                    Follow
+                                                <Button variant="contained" size="small" onClick={handleFollow}>
+                                                    {isFollowing ? "Unfollow" : (isFollower ? "Follow Back" : "Follow")}
                                                 </Button>
+
                                                 <Button variant="contained" color="inherit" size="small">
                                                     Message
                                                 </Button>

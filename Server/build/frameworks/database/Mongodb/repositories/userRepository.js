@@ -48,13 +48,59 @@ const userRepositoryMongoDB = () => {
             console.error(`Error updating user with ID ${id}:`, error);
         }
     });
+    const updateProfile = (id, user) => __awaiter(void 0, void 0, void 0, function* () {
+        const updatedProfile = yield userModel_1.default.findByIdAndUpdate(id, user, {
+            new: true,
+        });
+        return updatedProfile;
+    });
+    const followUser = (id, friendId) => __awaiter(void 0, void 0, void 0, function* () {
+        const followingUser = yield userModel_1.default.findOne({ _id: id });
+        console.log(followingUser, "following user");
+        const follow = yield userModel_1.default.findOne({ _id: friendId });
+        console.log(follow, "follow kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        console.log(!follow.followers);
+        if (!follow.followers.includes(id)) {
+            yield followingUser.updateOne({
+                $push: {
+                    following: friendId,
+                },
+            }, { new: true });
+            yield follow.updateOne({
+                $push: {
+                    followers: id,
+                },
+            }, { new: true });
+        }
+        else {
+            yield followingUser.updateOne({
+                $pull: {
+                    following: friendId,
+                },
+            }, { new: true });
+            yield follow.updateOne({
+                $pull: {
+                    followers: id,
+                },
+            }, { new: true });
+        }
+        const user = yield userModel_1.default.findOne({ _id: id }).select("-password");
+        console.log(user, "hi userllllllllllllllllll");
+        const following = yield Promise.all(user.following.map((id) => __awaiter(void 0, void 0, void 0, function* () { return yield userModel_1.default.findById(id).select("-password"); })));
+        console.log(following, "following");
+        const followers = yield Promise.all(user.followers.map((id) => __awaiter(void 0, void 0, void 0, function* () { return yield userModel_1.default.findById(id).select("-password"); })));
+        console.log(followers, "followersjjjjjjjjjjjjjjjjjjjjjjj");
+        return { following, followers };
+    });
     return {
         addUser,
         getUserByEmail,
         getUserById,
         getUserByUserName,
         getAllusers,
-        userHandle
+        userHandle,
+        updateProfile,
+        followUser
     };
 };
 exports.userRepositoryMongoDB = userRepositoryMongoDB;

@@ -31,6 +31,7 @@ function Profilepage() {
   return (
     <>
       <Profile 
+      id={userId}
         userData={userdata}
         setrender={setrender}
         render={render}

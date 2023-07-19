@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const user_1 = require("../../application/useCases/user/user");
+const cloudstorage_1 = __importDefault(require("../../frameworks/services/cloudstorage"));
 const userController = (userDbRepository, userDbRepositoryImpl) => {
     const dbRepositoryUser = userDbRepository(userDbRepositoryImpl());
     const getAllUsers = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,10 +40,43 @@ const userController = (userDbRepository, userDbRepositoryImpl) => {
             user,
         });
     }));
+    const updateProfile = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
+        const images = (_a = req === null || req === void 0 ? void 0 : req.file) === null || _a === void 0 ? void 0 : _a.path;
+        const image = yield cloudstorage_1.default.uploader.upload(images);
+        const url = image.url;
+        const { name, userName, email, number, Bio } = req.body;
+        const { id } = req.params;
+        const user = {
+            name,
+            userName,
+            email,
+            number,
+            Bio,
+            image: url
+        };
+        const updatedProfile = yield (0, user_1.profileUpdate)(id, user, dbRepositoryUser);
+        res.json({
+            status: "success",
+            updatedProfile,
+        });
+    }));
+    const putFollowUser = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { friendId } = req.params;
+        const { id } = req.body;
+        const result = yield (0, user_1.followUser)(id, friendId, dbRepositoryUser);
+        res.json({
+            status: "success",
+            message: "follow request successfully",
+            result,
+        });
+    }));
     return {
         getAllUsers,
         handleUser,
         getUserById,
+        updateProfile,
+        putFollowUser
     };
 };
 exports.default = userController;

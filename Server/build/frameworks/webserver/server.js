@@ -7,7 +7,7 @@ const config_1 = __importDefault(require("../../config"));
 const serverConfig = (server) => {
     const startServer = () => {
         server.listen(config_1.default.PORT, () => {
-            console.log(`Server listening on Port ${config_1.default.PORT}`);
+            console.log('\x1b[34m%s\x1b[0m', `Server listening at http://localhost:${config_1.default.PORT}`);
         });
     };
     return {

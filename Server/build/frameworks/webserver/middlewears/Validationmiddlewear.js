@@ -12,21 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postRepositoryImp = void 0;
-const postModel_1 = __importDefault(require("../Models/postModel"));
-const postRepositoryImp = () => {
-    const createPost = (post) => __awaiter(void 0, void 0, void 0, function* () {
-        const newPost = yield new postModel_1.default(post);
-        return yield newPost.save();
-    });
-    const getAllPost = () => __awaiter(void 0, void 0, void 0, function* () {
-        const allpost = yield postModel_1.default.find().sort({ createdAt: -1 }).populate('userId');
-        console.log(allpost, "hiiiiii");
-        return allpost;
-    });
-    return {
-        createPost,
-        getAllPost
-    };
-};
-exports.postRepositoryImp = postRepositoryImp;
+exports.validationMiddleware = void 0;
+const appError_1 = __importDefault(require("../../../util/appError"));
+const validationMiddleware = (schema, field = 'body') => (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = schema.safeParse(req[field]);
+        if (!result.success) {
+            console.log(result.error.errors[0].message);
+            const errorMessage = result.error.errors[0].message || "validation error";
+            throw new appError_1.default(errorMessage, 400);
+        }
+        req.body = result.data;
+        next();
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.validationMiddleware = validationMiddleware;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userById = exports.userHandle = exports.allUsers = void 0;
+exports.profileUpdate = exports.followUser = exports.userById = exports.userHandle = exports.allUsers = void 0;
 const httpstatus_1 = require("../../../types/httpstatus");
 const appError_1 = __importDefault(require("../../../util/appError"));
 const allUsers = (repository) => __awaiter(void 0, void 0, void 0, function* () {
@@ -39,3 +39,19 @@ const userById = (id, repository) => __awaiter(void 0, void 0, void 0, function*
     return user;
 });
 exports.userById = userById;
+const followUser = (id, friendId, repository) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield repository.followUser(id, friendId);
+    if (!result) {
+        throw new appError_1.default("user is already followed", httpstatus_1.HttpStatus.FORBIDDEN);
+    }
+    return result;
+});
+exports.followUser = followUser;
+const profileUpdate = (id, user, repository) => __awaiter(void 0, void 0, void 0, function* () {
+    const updateProfile = yield repository.updateProfile(id, user);
+    if (!updateProfile) {
+        throw new appError_1.default("user not found", httpstatus_1.HttpStatus.UNAUTHORIZED);
+    }
+    return updateProfile;
+});
+exports.profileUpdate = profileUpdate;

@@ -39,6 +39,18 @@ export const userById=async(
 }
 
 
+export const followUser = async (
+  id: string,
+  friendId: string,
+  repository: ReturnType<UserDbInterface>
+) => {
+  const result = await repository.followUser(id, friendId);
+  if (!result) {
+    throw new AppError("user is already followed", HttpStatus.FORBIDDEN);
+  }
+  return result;
+};
+
 export const profileUpdate = async (
   id: string,
   user: {

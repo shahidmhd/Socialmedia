@@ -14,18 +14,22 @@ const userDbRepository = (repository) => {
     const addUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
         return yield repository.addUser(user);
     });
+    const updateProfile = (id, user) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.updateProfile(id, user); });
     const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getAllusers(); });
     const getUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getUserByEmail(email); });
     const getUserById = (id) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getUserById(id); });
     const getUserByUserName = (userName) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getUserByUserName(userName); });
     const userHandle = (id) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.userHandle(id); });
+    const followUser = (id, friendId) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.followUser(id, friendId); });
     return {
         addUser,
         getUserByEmail,
         getUserById,
         getUserByUserName,
         getAllUsers,
-        userHandle
+        userHandle,
+        updateProfile,
+        followUser
     };
 };
 exports.userDbRepository = userDbRepository;

@@ -18,7 +18,7 @@ mongoose_1.default.set("strictQuery", true);
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(config_1.default.MONGO_DB_URL);
-        console.log(`Database connected successfully`);
+        console.log('\x1b[33m%s\x1b[0m', `Database connected successfully`);
     }
     catch (error) {
         console.log(error);

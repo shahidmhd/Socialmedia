@@ -12,6 +12,7 @@ const userRouter = () => {
   router.put("/:id/userHandle", controller.handleUser);
   router.get("/:id",userAuthMiddleware,controller.getUserById);
   router.put("/:id/updateprofile",upload.single("image"),controller.updateProfile)
+  router.put("/:friendId/follow",userAuthMiddleware, controller.putFollowUser);
 
   
 

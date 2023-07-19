@@ -33,6 +33,8 @@ export const userDbRepository = (
     await repository.getUserByUserName(userName);
     const userHandle = async (id: string) =>
     await repository.userHandle(id);
+    const followUser = async (id: string, friendId: string) =>
+    await repository.followUser(id, friendId);
   return {
     addUser,
     getUserByEmail,
@@ -40,7 +42,8 @@ export const userDbRepository = (
     getUserByUserName,
     getAllUsers,
     userHandle,
-    updateProfile
+    updateProfile,
+    followUser
   };
 };
 export type UserDbInterface = typeof userDbRepository;

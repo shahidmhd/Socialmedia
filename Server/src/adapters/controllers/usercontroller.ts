@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { UserDbInterface } from "../../application/repositories/userDbRepository";
 import { UserRepositoryMongoDB } from "../../frameworks/database/Mongodb/repositories/userRepository";
-import { allUsers, profileUpdate, userById, userHandle } from "../../application/useCases/user/user";
+import { allUsers, followUser, profileUpdate, userById, userHandle } from "../../application/useCases/user/user";
 import cloudinary from "../../frameworks/services/cloudstorage";
 
 
@@ -62,11 +62,24 @@ const handleUser = asyncHandler(async (req: Request, res: Response) => {
     });
   });
 
+  const putFollowUser = asyncHandler(async (req: Request, res: Response) => {
+    const { friendId } = req.params;
+    const { id } = req.body;
+    const result = await followUser(id, friendId, dbRepositoryUser);
+
+    res.json({
+      status: "success",
+      message: "follow request successfully",
+      result,
+    });
+  });
+
       return {
         getAllUsers,
         handleUser,
         getUserById,
-        updateProfile
+        updateProfile,
+        putFollowUser
       }
   }
 
