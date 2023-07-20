@@ -25,10 +25,7 @@ export const userRepositoryMongoDB = () => {
         return user;
       };
       const getUserByUserName = async (userName: string) => {
-        const user: UserInterface | null = await User.findOne({ userName }).populate(['following', 'followers']);
-
-        console.log(user,"userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-        
+        const user: UserInterface | null = await User.findOne({ userName }).populate(['following', 'followers']);        
         return user;
       };
       const getAllusers = async () => {
@@ -66,11 +63,7 @@ export const userRepositoryMongoDB = () => {
 
       const followUser = async (id: string, friendId: string) => {
         const followingUser: any = await User.findOne({ _id: id });
-        console.log(followingUser,"following user");
-        
         const follow: any = await User.findOne({ _id: friendId });
-        console.log(follow,"follow kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-        console.log(!follow.followers);
         
         if (!follow.followers.includes(id)) {
           await followingUser.updateOne(
@@ -108,7 +101,6 @@ export const userRepositoryMongoDB = () => {
           );
         }
         const user: any = await User.findOne({ _id: id }).select("-password");
-        console.log(user,"hi userllllllllllllllllll");
         
         const following = await Promise.all(
           user.following.map(
@@ -124,8 +116,6 @@ export const userRepositoryMongoDB = () => {
             async (id: string) => await User.findById(id).select("-password")
           )
         );
-
-        console.log(followers,"followersjjjjjjjjjjjjjjjjjjjjjjj");
         
     
         return { following, followers };

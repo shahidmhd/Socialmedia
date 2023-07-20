@@ -25,9 +25,39 @@ const getAllPost = async () => {
  return allpost
 };
 
+const getUserPosts = async (id: string) => {
+    return await Post.find({ userId: id }).sort({ createdAt: -1 });
+  };
+
+  const likePost = async (id: string, loggedId: string) => {
+    const post: any = await Post.findById({ _id: id });
+
+    if (!post.likes.includes(loggedId)) {
+      await post.updateOne(
+        {
+          $push: {
+            likes: loggedId,
+          },
+        },
+        { new: true }
+      );
+    } else {
+      await post.updateOne(
+        {
+          $pull: {
+            likes: loggedId,
+          },
+        },
+        { new: true }
+      );
+    }
+    return post;
+  };
 return {
    createPost,
-   getAllPost
+   getAllPost,
+   getUserPosts,
+   likePost
 }
 
 };

@@ -19,9 +19,8 @@ import { setFollowers, setFollowing } from '../../redux/Authslice';
 
 
 function Profile({ userData, setrender, render, currentuser, id }) {
-
     const dispatch = useDispatch()
-
+    const user=useSelector((state)=>state.Authslice.user)
     const token = useSelector((state) => state.Authslice.token);
     const userId = useSelector((state) => state.Authslice.user._id);
     const following = useSelector((state) => state.Authslice.user.following);
@@ -34,24 +33,12 @@ function Profile({ userData, setrender, render, currentuser, id }) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
-    // console.log(following,"folloewing");
-    // console.log(isFollowing,"isfollowing");
     const handleFollow = async () => {
-        console.log(token, userId, userData?._id);
         const response = await followReq(userId, userData?._id, token);
-        console.log(response);
         dispatch(setFollowers({ followers: response.followers }));
         dispatch(setFollowing({ following: response.following }));
-        // console.log(response, "response");
-
+        setrender(!render)
     }
-    console.log(following, "following");
-
-    console.log(isFollowing, "gggggggggggggggggggggggg");
-
-
-
 
     return (
         <>
@@ -110,8 +97,8 @@ function Profile({ userData, setrender, render, currentuser, id }) {
                                 <Box mt={2}>
                                     <Stack spacing={2} direction="row">
                                         <Typography>10 posts</Typography>
-                                        <Typography>10k followers</Typography>
-                                        <Typography>20k following</Typography>
+                                        <Typography> {userData ? userData.followers.length : user.followers.length} followers</Typography>
+                                        <Typography> {userData ? userData.following.length : user.following.length}following</Typography>
                                     </Stack>
                                     <Typography>{userData?.name}</Typography>
                                     <Typography>{userData?.Bio ? userData.Bio : ""}</Typography>
@@ -134,7 +121,7 @@ function Profile({ userData, setrender, render, currentuser, id }) {
                             </Tabs>
                         </Stack>
                         <stack>
-                            <Postwidget />
+                            <Postwidget userId={id}/>
                         </stack>
 
                     </Grid>

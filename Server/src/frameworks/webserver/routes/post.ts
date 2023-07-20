@@ -11,7 +11,8 @@ const postRouter=()=>{
 
     router.post("/",upload.array('picture',4) ,controller.createpost);
     router.get("/",controller.getPosts)
-
+    router.get('/:userId',controller.getUserPost)
+    router.put('/:id/like',controller.likePost)
 return router;
 }
 

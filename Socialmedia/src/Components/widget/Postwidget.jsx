@@ -1,9 +1,10 @@
 
-import { ImageList, ImageListItem } from '@mui/material';
-import React from 'react'
+import { ImageList, ImageListItem, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { getUserPosts } from '../../api/PostRequest/postReqest';
+import { useSelector } from 'react-redux';
 const itemData = [
     {
         img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
@@ -31,44 +32,80 @@ const itemData = [
     }
 ];
 
-const Postwidget = () => {
+
+
+const Postwidget = ({ userId }) => {
+    const token = useSelector((state) => state.Authslice.token);
+    const [userpost, setuserpost] = useState([])
+    const userPosts = async () => {
+        const response = await getUserPosts(userId, token)
+        setuserpost(response.posts)
+    }
+
+
+
+    useEffect(() => {
+        userPosts();
+    }, [])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const theme = useTheme();
     const isXsScreen = useMediaQuery(theme.breakpoints.only('xs'));
     const isSmScreen = useMediaQuery(theme.breakpoints.only('sm'));
     const isMdScreen = useMediaQuery(theme.breakpoints.only('md'));
     const isLgScreen = useMediaQuery(theme.breakpoints.only('lg'));
-  
+
     const getImageHeight = () => {
-      if (isXsScreen) {
-        return '80px'; // Height for xs screen size
-      } else if (isSmScreen) {
-        return '200px'; // Height for sm screen size
-      } else if (isMdScreen) {
-        return '300px'; // Height for md screen size
-      } else if (isLgScreen) {
-        return '400px'; // Height for lg screen size
-      }
-      return 'auto'; // Default height for other screen sizes
+        if (isXsScreen) {
+            return '80px'; // Height for xs screen size
+        } else if (isSmScreen) {
+            return '200px'; // Height for sm screen size
+        } else if (isMdScreen) {
+            return '300px'; // Height for md screen size
+        } else if (isLgScreen) {
+            return '400px'; // Height for lg screen size
+        }
+        return 'auto'; // Default height for other screen sizes
     };
+
 
     return (
         <>
+
+
             <ImageList
-                sx={{ alignItems: 'center', justifyContent: 'center', p: '2em'}}
+                sx={{ alignItems: 'center', justifyContent: 'center', p: '2em' }}
                 cols={3}
                 variant="masonry"
                 rowHeight={getImageHeight()}
             >
-                {itemData.map((item) => (
-                    <ImageListItem key={item.img}>
-                        <img
-                            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                            alt={item.title}
-                            loading="lazy"
-                            style={{ height: getImageHeight() }}
-                        />
-                    </ImageListItem>
-                ))}
+                {
+                    userpost.map((post, index) => {
+                        return (
+                            <ImageListItem key={post._id}>
+                            <img
+                                src={post.image}
+                                alt={post.description}
+                                loading="lazy"
+                                style={{ height: getImageHeight() }}
+                            />
+                        </ImageListItem>
+                        )
+
+                    })
+                }
             </ImageList>
         </>
     )

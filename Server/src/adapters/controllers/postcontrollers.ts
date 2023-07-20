@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 import cloudinary from "../../frameworks/services/cloudstorage";
 import { postRepositoryType } from "../../frameworks/database/Mongodb/repositories/postRepository";
 import { postDbInterfaceType } from "../../application/repositories/postDbrepositoryinterface";
-import { getAllPosts, postCreate } from "../../application/useCases/post/post";
+import { getAllPosts, getUserPosts, postCreate, postLike } from "../../application/useCases/post/post";
 
 interface UploadedFile {
     fieldname: string;
@@ -53,9 +53,33 @@ const dbRepositoryPost=postDbInterface(postDbImp())
         posts
       })
     })
+
+
+    const getUserPost = asyncHandler ( async (req:Request, res: Response) => {
+      const {userId} = req.params
+      const posts = await getUserPosts(userId, dbRepositoryPost)
+      res.json({
+        status : "success",
+        posts
+      })
+    })
+
+    const likePost = asyncHandler( async (req: Request, res: Response) => {
+      const{id} = req.params
+      const{loggedId} = req.body
+      
+      const likedPost = await postLike(id,loggedId,dbRepositoryPost)
+      res.json({
+        status: "success",
+        message: "Successfully liked",
+        likedPost
+      })
+    })
     return {
         createpost,
-        getPosts
+        getPosts,
+        getUserPost,
+        likePost
        
       };
 }   

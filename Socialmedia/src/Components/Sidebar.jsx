@@ -82,12 +82,12 @@ const Sidebar = ({setrender}) => {
               <ListItemText primary="settings"  sx={{ display: { xs: 'none', sm: 'block' } }} />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{mt:2}}>
+          <ListItem disablePadding sx={{mt:2}} onClick={()=>navigate(`/profile/${userId}`)} >
             <ListItemButton >
               <ListItemIcon>
                 <AccountBoxIcon />
               </ListItemIcon>
-              <ListItemText primary="profile" onClick={()=>navigate(`/profile/${userId}`)}  sx={{ display: { xs: 'none', sm: 'block' } }}/>
+              <ListItemText primary="profile"  sx={{ display: { xs: 'none', sm: 'block' } }}/>
             </ListItemButton>
           </ListItem>
           {/* <ListItem disablePadding>

@@ -28,3 +28,17 @@ export const getPosts = async (token) => {
       throw error;
     }
   };
+
+  export const getUserPosts = async (userId, token) => {
+    try {
+      const response = await ApI.get(`api/post/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = response.data;
+      return data;
+    } catch (error) {
+      // Handle error
+      console.error("Error getting user posts:", error);
+      throw error;
+    }
+  };

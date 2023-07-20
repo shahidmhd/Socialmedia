@@ -14,7 +14,7 @@ function AddPhoto({ open, setopen ,setrender}) {
   const dispatch=useDispatch()
   const [textFieldValue, setTextFieldValue] = useState('');
   const [selectedImages, setSelectedImages] = useState([]);
-  const { _id, userName } = useSelector((state) => state.Authslice.user);
+  const { _id} = useSelector((state) => state.Authslice.user);
   const token = useSelector((state) => state.Authslice.token);
   const handleClose = () => {
     setopen(false);
@@ -47,7 +47,6 @@ function AddPhoto({ open, setopen ,setrender}) {
         formdata.append(`picture`, selectedImage);
         formdata.append(`image${index}`, selectedImage.name);
       });
-      formdata.append("userName", userName);
     }
 
 
