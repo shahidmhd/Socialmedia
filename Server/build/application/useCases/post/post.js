@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllPosts = exports.postCreate = void 0;
+exports.postLike = exports.getUserPosts = exports.getAllPosts = exports.postCreate = void 0;
 const httpstatus_1 = require("../../../types/httpstatus");
 const appError_1 = __importDefault(require("../../../util/appError"));
 const postCreate = (post, repository) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,3 +31,19 @@ const getAllPosts = (repository) => __awaiter(void 0, void 0, void 0, function* 
     return getPosts;
 });
 exports.getAllPosts = getAllPosts;
+const getUserPosts = (id, repository) => __awaiter(void 0, void 0, void 0, function* () {
+    const getPosts = yield repository.getUserPosts(id);
+    if (!getPosts) {
+        throw new appError_1.default("Posts Are not Available", httpstatus_1.HttpStatus.BAD_REQUEST);
+    }
+    return getPosts;
+});
+exports.getUserPosts = getUserPosts;
+const postLike = (id, loggedId, repository) => __awaiter(void 0, void 0, void 0, function* () {
+    const likedPost = yield repository.likePost(id, loggedId);
+    if (!likedPost) {
+        throw new appError_1.default("Post not Found", httpstatus_1.HttpStatus.BAD_REQUEST);
+    }
+    return likedPost;
+});
+exports.postLike = postLike;

@@ -13,6 +13,8 @@ const postRouter = () => {
     const controller = (0, postcontrollers_1.default)(postDbrepositoryinterface_1.postDbInterface, postRepository_1.postRepositoryImp);
     router.post("/", upload_1.default.array('picture', 4), controller.createpost);
     router.get("/", controller.getPosts);
+    router.get('/:userId', controller.getUserPost);
+    router.put('/:id/like', controller.likePost);
     return router;
 };
 exports.default = postRouter;

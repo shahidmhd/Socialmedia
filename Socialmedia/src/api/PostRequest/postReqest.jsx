@@ -42,3 +42,21 @@ export const getPosts = async (token) => {
       throw error;
     }
   };
+
+  export const getLike = async (token, postId, loggedUserId) => {
+    try {
+      const response = await ApI.put(
+        `api/post/${postId}/like`,
+        { loggedId: loggedUserId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = response.data;
+      return data;
+    } catch (error) {
+      // Handle error
+      console.error("Error getting user posts:", error);
+      throw error;
+    }
+  };

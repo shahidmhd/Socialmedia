@@ -13,9 +13,13 @@ exports.postDbInterface = void 0;
 const postDbInterface = (repository) => {
     const createPost = (post) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.createPost(post); });
     const getAllPost = () => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getAllPost(); });
+    const getUserPosts = (id) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.getUserPosts(id); });
+    const likePost = (id, loggedId) => __awaiter(void 0, void 0, void 0, function* () { return yield repository.likePost(id, loggedId); });
     return {
         createPost,
-        getAllPost
+        getAllPost,
+        getUserPosts,
+        likePost
     };
 };
 exports.postDbInterface = postDbInterface;

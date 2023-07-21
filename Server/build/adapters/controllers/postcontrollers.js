@@ -44,9 +44,29 @@ const postController = (postDbInterface, postDbImp) => {
             posts
         });
     }));
+    const getUserPost = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { userId } = req.params;
+        const posts = yield (0, post_1.getUserPosts)(userId, dbRepositoryPost);
+        res.json({
+            status: "success",
+            posts
+        });
+    }));
+    const likePost = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const { loggedId } = req.body;
+        const likedPost = yield (0, post_1.postLike)(id, loggedId, dbRepositoryPost);
+        res.json({
+            status: "success",
+            message: "Successfully liked",
+            likedPost
+        });
+    }));
     return {
         createpost,
-        getPosts
+        getPosts,
+        getUserPost,
+        likePost
     };
 };
 exports.default = postController;

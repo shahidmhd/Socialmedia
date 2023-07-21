@@ -51,7 +51,9 @@ const getUserPosts = async (id: string) => {
         { new: true }
       );
     }
-    return post;
+
+    // const data: any = await Post.findById({ _id: id });
+    return post
   };
 return {
    createPost,

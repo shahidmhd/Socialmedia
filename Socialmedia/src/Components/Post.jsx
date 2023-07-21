@@ -1,17 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Checkbox, Divider, IconButton, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react';
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Checkbox,
+  Divider,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import CommentIcon from '@mui/icons-material/Comment';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import SendIcon from '@mui/icons-material/Send';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
-
-
+import { useSelector, useDispatch } from 'react-redux';
+import { getLike } from '../api/PostRequest/postReqest';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { setPost } from '../redux/Authslice';
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -37,8 +56,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ image, description, userName, date, profilepicture, userId }) => {
-  const navigate = useNavigate()
+const Post = ({ image, description, userName, date, profilepicture, userId, postId, likes, buttonlicked }) => {
+  const loggedInUserId = useSelector((state) => state.Authslice.user._id);
+  const isLiked = likes.includes(loggedInUserId);
+  const likeCount = likes.length;
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.Authslice.token);
+  const navigate = useNavigate();
   const classes = useStyles();
   const getTimeDifference = () => {
     const currentDate = new Date();
@@ -46,7 +70,7 @@ const Post = ({ image, description, userName, date, profilepicture, userId }) =>
     const timeDifference = (currentDate - postedDate) / 1000; // Get difference in seconds
 
     if (timeDifference < 5) {
-      return "just now";
+      return 'just now';
     } else if (timeDifference < 60) {
       return `${Math.floor(timeDifference)} seconds ago`;
     } else if (timeDifference < 3600) {
@@ -57,11 +81,28 @@ const Post = ({ image, description, userName, date, profilepicture, userId }) =>
       return `${Math.floor(timeDifference / 86400)} days ago`;
     } else {
       // You can add more conditions to display weeks, months, etc.
-      return "long time ago";
+      return 'long time ago';
     }
   };
 
   const [timeAgo, setTimeAgo] = useState(getTimeDifference());
+  const [showCommentField, setShowCommentField] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [comments, setComments] = useState([
+    // Dummy comments
+    {
+      id: 1,
+      userId: 'user1',
+      userName: 'User1',
+      comment: 'This is a dummy comment 1.',
+    },
+    {
+      id: 2,
+      userId: 'user2',
+      userName: 'User2',
+      comment: 'This is a dummy comment 2.',
+    },
+  ]);
 
   useEffect(() => {
     // Update the timeAgo every minute to keep it updated
@@ -70,88 +111,114 @@ const Post = ({ image, description, userName, date, profilepicture, userId }) =>
     }, 60000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [date]);
 
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
+  const handleSendClick = () => {
+    // Do something with the input value (e.g., save the comment)
+    if (inputValue.trim() !== '') {
+      const newComment = {
+        id: comments.length + 1,
+        userId: loggedInUserId,
+        userName: 'Your Name', // Replace with actual user name
+        comment: inputValue,
+      };
+      setComments((prevComments) => [...prevComments, newComment]);
+      setInputValue('');
+    }
+  };
 
-const handleLike=()=>{
-  console.log("hiiiiiiiiiiiiiiiiiiii");
-}
-
-
-
+  const handleLike = async () => {
+    const result = await getLike(token, postId, loggedInUserId);
+    dispatch(setPost({ post: result.likedPost }));
+    buttonlicked();
+  };
 
   return (
-
-
     <Card sx={{ margin: 5, boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)', borderRadius: '0.75rem' }}>
       <CardHeader
-        onClick={() => navigate(`/profile/${userId}`)}
-        sx={{ bgcolor: '#e0dada', cursor: 'pointer', }}
-        avatar={
-          <Avatar sx={{ cursor: 'pointer' }} alt="Remy Sharp" src={profilepicture} />
-        }
+       
+        sx={{ bgcolor: '#e0dada', cursor: 'pointer' }}
+        avatar={<Avatar sx={{ cursor: 'pointer' }} alt="Remy Sharp" src={profilepicture}  onClick={() => navigate(`/profile/${userId}`)} />}
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton onClick={()=>console.log("hiiii")} aria-label="settings">
+            <MoreVertIcon  />
           </IconButton>
         }
         title={userName}
         subheader={timeAgo}
       />
 
-      <Carousel
-        showThumbs={false}
-        autoPlay={true}
-        interval={3000}
-        infiniteLoop={true}
-
-      >
-
-        {
-          image.map((image, index) => {
-            return (
-              <img
-                key={index}
-                src={image}
-                className={classes.img}
-
-              />
-            )
-          })
-
-        }
-
+      <Carousel showThumbs={false} autoPlay={true} interval={3000} infiniteLoop={true}>
+        {image.map((image, index) => {
+          return <img key={index} src={image} className={classes.img} />;
+        })}
       </Carousel>
-      <CardActions disableSpacing >
-        <IconButton  onClick={handleLike} aria-label="add to favorites">
-          <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{ color: 'red' }} />} />
-          <Typography>10</Typography>
+      <CardActions disableSpacing>
+        <IconButton onClick={handleLike} aria-label="add to favorites">
+          {isLiked ? <FavoriteIcon sx={{ color: 'red' }} /> : <FavoriteBorderIcon />}
+          <Typography>{likeCount}</Typography>
         </IconButton>
-        <IconButton aria-label="comment">
+        <IconButton aria-label="comment" onClick={() => setShowCommentField(!showCommentField)}>
           <CommentIcon />
-          <Typography>10</Typography>
+          <Typography>{comments.length}</Typography>
         </IconButton>
         <IconButton aria-label="share">
           <TelegramIcon />
         </IconButton>
 
         <IconButton aria-label="save" sx={{ marginLeft: 'auto' }}>
-          <Checkbox
-            icon={<BookmarkBorderIcon />}
-            checkedIcon={<BookmarkIcon />}
-          />
+          <Checkbox icon={<BookmarkBorderIcon />} checkedIcon={<BookmarkIcon />} />
         </IconButton>
       </CardActions>
-      <Divider />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
+      <CardContent sx={{ padding: '5', display: 'flex' }}>
+        <Avatar alt="Remy Sharp" src={profilepicture} sx={{ width: 24, height: 24 }} />
+        <Typography pl={2} variant="body2" color="text.secondary">
           {description}
-
         </Typography>
       </CardContent>
-    </Card>
-  )
-}
 
-export default Post
+      {showCommentField && (
+        <CardContent>
+          <TextField
+            label="Add a comment"
+            variant="outlined"
+            value={inputValue}
+            onChange={handleInputChange}
+            sx={{ width: '100%', borderTop: 'none' }} // Remove top border
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SendIcon
+                    color="primary"
+                    sx={{ cursor: 'pointer' }}
+                    onClick={handleSendClick}
+                  />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* Display dummy comments */}
+          {comments.map((comment) => (
+            <Box pt={2} key={comment.id} display="flex" alignItems="center">
+              <Avatar
+                alt={comment.userName}
+                src={profilepicture}
+                sx={{ width: 24, height: 24 }}
+              />
+              <Typography pl={1} variant="body2" color="text.secondary">
+                <strong>{comment.userName}</strong>: {comment.comment}
+              </Typography>
+            </Box>
+          ))}
+        </CardContent>
+      )}
+    </Card>
+  );
+};
+
+export default Post;

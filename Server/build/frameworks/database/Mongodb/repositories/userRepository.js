@@ -28,7 +28,7 @@ const userRepositoryMongoDB = () => {
         return user;
     });
     const getUserByUserName = (userName) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield userModel_1.default.findOne({ userName });
+        const user = yield userModel_1.default.findOne({ userName }).populate(['following', 'followers']);
         return user;
     });
     const getAllusers = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,10 +56,7 @@ const userRepositoryMongoDB = () => {
     });
     const followUser = (id, friendId) => __awaiter(void 0, void 0, void 0, function* () {
         const followingUser = yield userModel_1.default.findOne({ _id: id });
-        console.log(followingUser, "following user");
         const follow = yield userModel_1.default.findOne({ _id: friendId });
-        console.log(follow, "follow kkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-        console.log(!follow.followers);
         if (!follow.followers.includes(id)) {
             yield followingUser.updateOne({
                 $push: {
@@ -85,11 +82,9 @@ const userRepositoryMongoDB = () => {
             }, { new: true });
         }
         const user = yield userModel_1.default.findOne({ _id: id }).select("-password");
-        console.log(user, "hi userllllllllllllllllll");
         const following = yield Promise.all(user.following.map((id) => __awaiter(void 0, void 0, void 0, function* () { return yield userModel_1.default.findById(id).select("-password"); })));
         console.log(following, "following");
         const followers = yield Promise.all(user.followers.map((id) => __awaiter(void 0, void 0, void 0, function* () { return yield userModel_1.default.findById(id).select("-password"); })));
-        console.log(followers, "followersjjjjjjjjjjjjjjjjjjjjjjj");
         return { following, followers };
     });
     return {

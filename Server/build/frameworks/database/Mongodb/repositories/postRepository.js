@@ -24,9 +24,33 @@ const postRepositoryImp = () => {
         console.log(allpost, "hiiiiii");
         return allpost;
     });
+    const getUserPosts = (id) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield postModel_1.default.find({ userId: id }).sort({ createdAt: -1 });
+    });
+    const likePost = (id, loggedId) => __awaiter(void 0, void 0, void 0, function* () {
+        const post = yield postModel_1.default.findById({ _id: id });
+        if (!post.likes.includes(loggedId)) {
+            yield post.updateOne({
+                $push: {
+                    likes: loggedId,
+                },
+            }, { new: true });
+        }
+        else {
+            yield post.updateOne({
+                $pull: {
+                    likes: loggedId,
+                },
+            }, { new: true });
+        }
+        const data = yield postModel_1.default.findById({ _id: id });
+        return data;
+    });
     return {
         createPost,
-        getAllPost
+        getAllPost,
+        getUserPosts,
+        likePost
     };
 };
 exports.postRepositoryImp = postRepositoryImp;
