@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
   Avatar,
-  AvatarGroup,
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
   Checkbox,
-  Divider,
   IconButton,
   InputAdornment,
   TextField,
@@ -31,6 +27,7 @@ import { getLike } from '../api/PostRequest/postReqest';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { setPost } from '../redux/Authslice';
+import Reportmodal from './Modal/Reportmodal';
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -85,6 +82,16 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
     }
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleOpenPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'popover-menu' : undefined;
   const [timeAgo, setTimeAgo] = useState(getTimeDifference());
   const [showCommentField, setShowCommentField] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -140,18 +147,27 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
   return (
     <Card sx={{ margin: 5, boxShadow: '4px 4px 4px rgba(0, 0, 0, 0.1)', borderRadius: '0.75rem' }}>
       <CardHeader
-       
+
         sx={{ bgcolor: '#e0dada', cursor: 'pointer' }}
-        avatar={<Avatar sx={{ cursor: 'pointer' }} alt="Remy Sharp" src={profilepicture}  onClick={() => navigate(`/profile/${userId}`)} />}
+        avatar={<Avatar sx={{ cursor: 'pointer' }} alt="Remy Sharp" src={profilepicture} onClick={() => navigate(`/profile/${userId}`)} />}
         action={
-          <IconButton onClick={()=>console.log("hiiii")} aria-label="settings">
-            <MoreVertIcon  />
+          <IconButton
+            onClick={handleOpenPopover}
+            aria-label="settings"
+            aria-describedby={id}
+          >
+            <MoreVertIcon />
           </IconButton>
         }
         title={userName}
         subheader={timeAgo}
       />
 
+      <Reportmodal id={id}
+        anchorEl={anchorEl}
+        open={open}
+        setAnchorEl={setAnchorEl}
+      />
       <Carousel showThumbs={false} autoPlay={true} interval={3000} infiniteLoop={true}>
         {image.map((image, index) => {
           return <img key={index} src={image} className={classes.img} />;
