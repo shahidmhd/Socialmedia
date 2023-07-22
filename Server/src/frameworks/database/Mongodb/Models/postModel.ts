@@ -18,6 +18,7 @@ const postSchema = new Schema(
         type : [String]
     },
     likes: [],
+    comments: [],
   },
   {
     timestamps: true,

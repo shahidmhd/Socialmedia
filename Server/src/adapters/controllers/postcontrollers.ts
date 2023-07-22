@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 import cloudinary from "../../frameworks/services/cloudstorage";
 import { postRepositoryType } from "../../frameworks/database/Mongodb/repositories/postRepository";
 import { postDbInterfaceType } from "../../application/repositories/postDbrepositoryinterface";
-import { getAllPosts, getUserPosts, postCreate, postLike } from "../../application/useCases/post/post";
+import { addComment, commentDelete, getAllPosts, getUserPosts, postCreate, postLike, singlePost } from "../../application/useCases/post/post";
 
 interface UploadedFile {
     fieldname: string;
@@ -75,11 +75,46 @@ const dbRepositoryPost=postDbInterface(postDbImp())
         likedPost
       })
     })
+
+    const commentPost = asyncHandler( async (req: Request, res: Response) => {
+      const{postId} = req.params
+      const {userId,comment} = req.body
+      const commentAdded = await addComment(postId,userId,comment,dbRepositoryPost)
+      res.json({
+        status: "success",
+        message: "Successfully commentAdded",
+        commentAdded
+      })
+    })
+
+    const deleteComment = asyncHandler( async (req: Request, res: Response) => {
+      const{postId} = req.params
+      const {userId,index} = req.body
+      const deletedComment = await commentDelete(postId,userId,index,dbRepositoryPost)
+      res.json({
+        status: "success",
+        message: "Successfully commentAdded",
+        deletedComment
+      })
+    })
+    const getSinglePost = asyncHandler ( async (req:Request, res: Response) => {
+      const {id} = req.params
+   
+      
+      const posts = await singlePost(id, dbRepositoryPost)
+      res.json({
+        status : "success",
+        posts
+      })
+    })
     return {
         createpost,
         getPosts,
         getUserPost,
-        likePost
+        likePost,
+        commentPost,
+        deleteComment,
+        getSinglePost
        
       };
 }   

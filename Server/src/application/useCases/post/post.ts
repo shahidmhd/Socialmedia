@@ -55,3 +55,41 @@ export const postCreate = async (
     }
     return likedPost;
   };
+
+  export const addComment = async (
+    postId: string,
+    userId: string,
+    comment: string,
+    repository: ReturnType<postDbInterfaceType>
+  ) => {
+    const addComment = await repository.addComment(postId,userId,comment);
+  
+    if (!addComment) {
+      throw new AppError("Post not Found", HttpStatus.BAD_REQUEST);
+    }
+    return addComment;
+  };
+  export const singlePost = async (
+    id: string,
+    repository: ReturnType<postDbInterfaceType>
+  ) => {
+    const getPost = await repository.getSinglePost(id);
+    if (!getPost) {
+      throw new AppError("Posts Are not Available", HttpStatus.BAD_REQUEST);
+    }
+    return getPost;
+  };
+
+  export const commentDelete = async (
+    postId: string,
+    userId: string,
+    index: number,
+    repository: ReturnType<postDbInterfaceType>
+  ) => {
+    const deleteComment = await repository.deleteComment(postId,userId,index);
+  
+    if (!deleteComment) {
+      throw new AppError("Post not Found", HttpStatus.BAD_REQUEST);
+    }
+    return deleteComment;
+  };

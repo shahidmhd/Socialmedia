@@ -23,7 +23,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getLike } from '../api/PostRequest/postReqest';
+import { commentAdd, getLike, singlePost } from '../api/PostRequest/postReqest';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { setPost } from '../redux/Authslice';
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ image, description, userName, date, profilepicture, userId, postId, likes, buttonlicked }) => {
+const Post = ({ image, description, userName, date, profilepicture, userId, postId, likes, buttonlicked,post }) => {
   const loggedInUserId = useSelector((state) => state.Authslice.user._id);
   const isLiked = likes.includes(loggedInUserId);
   const likeCount = likes.length;
@@ -95,21 +95,7 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
   const [timeAgo, setTimeAgo] = useState(getTimeDifference());
   const [showCommentField, setShowCommentField] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [comments, setComments] = useState([
-    // Dummy comments
-    {
-      id: 1,
-      userId: 'user1',
-      userName: 'User1',
-      comment: 'This is a dummy comment 1.',
-    },
-    {
-      id: 2,
-      userId: 'user2',
-      userName: 'User2',
-      comment: 'This is a dummy comment 2.',
-    },
-  ]);
+  const [postcomment, setpostcomment] = useState([])
 
   useEffect(() => {
     // Update the timeAgo every minute to keep it updated
@@ -120,21 +106,33 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
     return () => clearInterval(interval);
   }, [date]);
 
+useEffect(()=>{
+  getcomments()
+},[post])
+
+  const getcomments = async () => {
+    console.log("jjjjjjjjj");
+    console.log(postId);
+    const result = await singlePost(token, postId);
+    const comment = result.posts.comments
+    setpostcomment(comment)
+  }
+
+  const handleIconButtonClick = () => {
+    setShowCommentField(!showCommentField)
+   
+  };
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  const handleSendClick = () => {
-    // Do something with the input value (e.g., save the comment)
+  const handleSendClick = async () => {
     if (inputValue.trim() !== '') {
-      const newComment = {
-        id: comments.length + 1,
-        userId: loggedInUserId,
-        userName: 'Your Name', // Replace with actual user name
-        comment: inputValue,
-      };
-      setComments((prevComments) => [...prevComments, newComment]);
+      const comment = inputValue
+      await commentAdd(loggedInUserId, postId, comment, token);
       setInputValue('');
+      buttonlicked();
     }
   };
 
@@ -178,9 +176,9 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
           {isLiked ? <FavoriteIcon sx={{ color: 'red' }} /> : <FavoriteBorderIcon />}
           <Typography>{likeCount}</Typography>
         </IconButton>
-        <IconButton aria-label="comment" onClick={() => setShowCommentField(!showCommentField)}>
+        <IconButton aria-label="comment" onClick={handleIconButtonClick}>
           <CommentIcon />
-          <Typography>{comments.length}</Typography>
+          <Typography>6</Typography>
         </IconButton>
         <IconButton aria-label="share">
           <TelegramIcon />
@@ -219,18 +217,25 @@ const Post = ({ image, description, userName, date, profilepicture, userId, post
           />
 
           {/* Display dummy comments */}
-          {comments.map((comment) => (
-            <Box pt={2} key={comment.id} display="flex" alignItems="center">
-              <Avatar
-                alt={comment.userName}
-                src={profilepicture}
-                sx={{ width: 24, height: 24 }}
-              />
-              <Typography pl={1} variant="body2" color="text.secondary">
-                <strong>{comment.userName}</strong>: {comment.comment}
-              </Typography>
-            </Box>
-          ))}
+
+          {postcomment.length > 0 ? (
+            postcomment.map((item, index) => (
+              <Box pt={2} key={index} display="flex" alignItems="center">
+                <Avatar
+                  alt={item?.userId.userName}
+                  src={item?.userId.image}
+                  sx={{ width: 24, height: 24 }}
+                />
+                <Typography pl={1} variant="body2" color="text.secondary">
+                  <strong>{item?.userId.userName}</strong>:{item?.comment}
+                </Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              No comments yet.
+            </Typography>
+          )}
         </CardContent>
       )}
     </Card>

@@ -13,6 +13,9 @@ const postRouter=()=>{
     router.get("/",controller.getPosts)
     router.get('/:userId',controller.getUserPost)
     router.put('/:id/like',controller.likePost)
+    router.put("/:postId/comment",controller.commentPost)
+    router.put("/:postId/commentDelete",controller.deleteComment)
+    router.get('/singlePost/:id',controller.getSinglePost)
 return router;
 }
 

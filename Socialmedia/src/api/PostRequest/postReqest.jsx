@@ -60,3 +60,30 @@ export const getPosts = async (token) => {
       throw error;
     }
   };
+
+  export const commentAdd = async (loggedUserId,postId,commentInput,token) => {
+    try {
+      const response = await ApI.put(`api/post/${postId}/comment`,{userId: loggedUserId,comment:commentInput} ,{
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = response.data.commentAdded;
+      return data;
+    } catch (error) {
+      // Handle error
+      console.error("Error getting user posts:", error);
+      throw error;
+    }
+  };
+
+  export const singlePost = async (token, postId) => {
+    try {
+      const response = await ApI.get(`api/post/singlePost/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data;
+    } catch (error) {
+      // Handle error
+      console.error("Error creating post:", error);
+      throw error;
+    }
+  };

@@ -18,6 +18,8 @@ const Feed = ({ render }) => {
     // setLoading(false);
   };
 
+  
+
   const buttonlicked = () => {
     setPost(!post);
   };
@@ -36,6 +38,7 @@ const Feed = ({ render }) => {
         key={item._id}
         postId={item._id}
         likes={item.likes}
+        comments={item.comments}
         image={item.image}
         userName={item.userId.userName}
         description={item.description}
@@ -43,6 +46,7 @@ const Feed = ({ render }) => {
         profilepicture={item.userId.image}
         userId={item.userId._id}
         buttonlicked={buttonlicked}
+        post={post}
       />
     ))}
     </Box>

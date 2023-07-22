@@ -63,9 +63,32 @@ export const Authslice = createSlice({
       });
       state.posts = updatedPosts;
   },
+  setcomment: (state, action) => {
+    const updatedPosts = state.posts.map((post) => {
+      if (post._id === action.payload.post._id) {
+        const updatedComments = action.payload.post.comments.map((comment) => {
+          // Extract and store the userId
+          const userId = comment.userId;
+          // You can do any further processing or store the userId in your state as required
+          // For example, you can store it in an array, an object, or any other data structure
+          // For this example, let's assume you want to store userIds in an array
+          state.userIds.push(userId);
+          return comment;
+        });
+        
+        // Update the comments array with the new updatedComments array
+        return { ...post, comments: updatedComments };
+      }
+      
+      return post;
+    });
+    
+    state.posts = updatedPosts;
+  }
+
 
   }
 });
 
-export const { setLogin, setLogout, setAdminLogin, setadminLogout, setPosts, setUpdate, setFollowers, setFollowing,setPost } = Authslice.actions;
+export const { setLogin, setLogout, setAdminLogin, setadminLogout, setPosts, setUpdate, setFollowers, setFollowing,setPost,setcomments } = Authslice.actions;
 export default Authslice.reducer;
