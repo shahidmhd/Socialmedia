@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -23,11 +24,12 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { commentAdd, getLike, singlePost } from '../api/PostRequest/postReqest';
+import { commentAdd, deleteComment, getLike, singlePost } from '../api/PostRequest/postReqest';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { setPost } from '../redux/Authslice';
 import Reportmodal from './Modal/Reportmodal';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const useStyles = makeStyles((theme) => ({
   img: {
@@ -111,8 +113,6 @@ useEffect(()=>{
 },[post])
 
   const getcomments = async () => {
-    console.log("jjjjjjjjj");
-    console.log(postId);
     const result = await singlePost(token, postId);
     const comment = result.posts.comments
     setpostcomment(comment)
@@ -135,6 +135,14 @@ useEffect(()=>{
       buttonlicked();
     }
   };
+
+  const deletecomment=async(index,userId)=>{
+    console.log("deletecomment");
+    console.log(index,userId);
+    const result = await deleteComment(index, userId, postId, token);
+    console.log(result,"ddddddddddddddddddddddddd");
+    buttonlicked();
+  }
 
   const handleLike = async () => {
     const result = await getLike(token, postId, loggedInUserId);
@@ -220,19 +228,28 @@ useEffect(()=>{
 
           {postcomment.length > 0 ? (
             postcomment.map((item, index) => (
-              <Box pt={2} key={index} display="flex" alignItems="center">
+          <Box pt={2} key={index} display="flex" alignItems="center" justifyContent={loggedInUserId===item?.userId._id? 'flex-end':'flex-start'}>
                 <Avatar
                   alt={item?.userId.userName}
                   src={item?.userId.image}
                   sx={{ width: 24, height: 24 }}
                 />
-                <Typography pl={1} variant="body2" color="text.secondary">
+                <Typography pl={1} variant="body2" display='flex' color="text.secondary">
                   <strong>{item?.userId.userName}</strong>:{item?.comment}
+                  {item?.userId._id === loggedInUserId && (
+                  <Button
+                    size="small"
+                    color="inherit"
+                    startIcon={<DeleteIcon/>}
+                    onClick={()=>deletecomment(index,item?.userId._id)}
+                  >
+                  </Button>
+                )}
                 </Typography>
               </Box>
             ))
           ) : (
-            <Typography variant="body2" color="text.secondary">
+            <Typography align='center' pt={2} variant="body2" color="text.secondary">
               No comments yet.
             </Typography>
           )}

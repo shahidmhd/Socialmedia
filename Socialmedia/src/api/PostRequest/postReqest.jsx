@@ -87,3 +87,17 @@ export const getPosts = async (token) => {
       throw error;
     }
   };
+
+  export const deleteComment = async (index,loggedUserId,postId,token) => {
+    try {
+      const response = await ApI.put(`api/post/${postId}/commentDelete`,{userId: loggedUserId,index:index} ,{
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = response.data.deletedComment;
+      return data;
+    } catch (error) {
+      // Handle error
+      console.error("Error getting user posts:", error);
+      throw error;
+    }
+  };

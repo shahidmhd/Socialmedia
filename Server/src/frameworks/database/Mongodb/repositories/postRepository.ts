@@ -100,7 +100,7 @@ const getUserPosts = async (id: string) => {
       populate: {
         path: 'userId',
         model: User,
-        select: 'userName image', // You can choose which fields to include from the User model
+        select: 'userName image _id', // You can choose which fields to include from the User model
       },
     })
     .exec();
